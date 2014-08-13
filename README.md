@@ -12,7 +12,10 @@ To install StoryBoard and configure it with sane defaults, include the
 following in your site.pp file:
 
     node default {
-        include storyboard
+        class { 'storyboard':
+            mysql_user_password    => 'changeme',
+            rabbitmq_user_password => 'changemetoo'
+        }
     }
 
 # Configuration
