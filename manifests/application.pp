@@ -94,20 +94,20 @@ class storyboard::application (
   }
 
   # Download the latest StoryBoard Source
-  vcsrepo { '/opt/storyboard':
-    ensure   => latest,
-    provider => git,
-    revision => 'master',
-    source   => 'https://git.openstack.org/openstack-infra/storyboard/',
-    require  => Package['git']
-  }
+#  vcsrepo { '/opt/storyboard':
+#    ensure   => latest,
+#    provider => git,
+#    revision => 'master',
+#    source   => 'https://git.openstack.org/openstack-infra/storyboard/',
+#    require  => Package['git']
+#  }
 
   # Run pip
   exec { 'install-storyboard' :
     command     => 'pip install /opt/storyboard',
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
-    subscribe   => Vcsrepo['/opt/storyboard'],
+#    subscribe   => Vcsrepo['/opt/storyboard'],
     notify      => Service['httpd'],
     require     => [
       Class['apache::params'],
