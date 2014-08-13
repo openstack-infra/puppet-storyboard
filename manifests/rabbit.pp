@@ -20,7 +20,7 @@
 #
 class storyboard::rabbit (
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password = 'changeme'
+  $rabbitmq_user_password
 ) {
 
   class { 'rabbitmq':

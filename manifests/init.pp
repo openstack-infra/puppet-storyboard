@@ -22,10 +22,10 @@
 class storyboard (
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
-  $mysql_user_password = 'changeme',
+  $mysql_user_password,
 
   $rabbitmq_user            = 'storyboard',
-  $rabbitmq_user_password   = 'changemetoo',
+  $rabbitmq_user_password,
 
   $hostname            = $::fqdn,
   $openid_url          = 'https://login.launchpad.net/+openid',
