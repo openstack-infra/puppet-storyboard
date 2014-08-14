@@ -21,6 +21,7 @@
 class storyboard::application (
 
   # Installation parameters
+  $install_root           = '/var/lib/storyboard',
   $www_root               = '/var/lib/storyboard/www',
   $server_admin           = undef,
   $hostname               = $::fqdn,
@@ -62,10 +63,10 @@ class storyboard::application (
 
   # Create the storyboard configuration directory.
   file { '/etc/storyboard':
-    ensure  => directory,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
-    mode    => '0700',
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
+    mode   => '0700',
   }
 
   # Configure the StoryBoard API
@@ -105,7 +106,7 @@ class storyboard::application (
   }
 
   # Create the root dir
-  file { '/var/lib/storyboard':
+  file { $install_root:
     ensure => directory,
     owner  => $storyboard::params::user,
     group  => $storyboard::params::group,
@@ -113,18 +114,18 @@ class storyboard::application (
 
   # Create the log dir
   file { '/var/log/storyboard':
-    ensure  => directory,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
   }
 
   # Install the wsgi app
-  file { '/var/lib/storyboard/storyboard.wsgi':
+  file { "${install_root}/storyboard.wsgi":
     source  => '/opt/storyboard/storyboard/api/app.wsgi',
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
     require => [
-      File['/var/lib/storyboard'],
+      File[$install_root],
       Exec['install-storyboard'],
     ],
     notify  => Service['httpd'],
@@ -155,16 +156,19 @@ class storyboard::application (
 
   # Copy the downloaded source into the configured www_root
   file { $www_root:
-    ensure      => directory,
-    owner       => $storyboard::params::user,
-    group       => $storyboard::params::group,
-    require     => Puppi::Netinstall['storyboard-webclient'],
-    source      => '/opt/storyboard-webclient/dist',
-    recurse     => true,
-    purge       => true,
-    force       => true,
-    notify      => Service['httpd'],
+    ensure  => directory,
+    owner   => $storyboard::params::user,
+    group   => $storyboard::params::group,
+    require => Puppi::Netinstall['storyboard-webclient'],
+    source  => '/opt/storyboard-webclient/dist',
+    recurse => true,
+    purge   => true,
+    force   => true,
+    notify  => Service['httpd'],
   }
+
+  # Check vhost permission set.
+  $new_vhost_perms = (versioncmp($::apache::apache_version, '2.4') >= 0)
 
   # Are we setting up TLS or non-TLS?
   if defined(Class['storyboard::cert']) {
