@@ -43,6 +43,10 @@ class storyboard::application (
   $rabbitmq_user_password = 'changemetoo'
 ) {
 
+  # Variables
+  $webclient_filename = 'storyboard-webclient-latest.tar.gz'
+  $webclient_url = "http://tarballs.openstack.org/storyboard-webclient/${webclient_filename}"
+
   # Dependencies
   require storyboard::params
   include apache
@@ -57,6 +61,12 @@ class storyboard::application (
 
   if !defined(Package['git']) {
     package { 'git':
+      ensure => present
+    }
+  }
+
+  if !defined(Package['curl']) {
+    package { 'curl':
       ensure => present
     }
   }
@@ -147,11 +157,29 @@ class storyboard::application (
     notify      => Service['httpd'],
   }
 
+  file { '/opt/storyboard-webclient':
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
+  }
+
   # Download the latest storyboard-webclient
-  puppi::netinstall { 'storyboard-webclient':
-    url             => 'http://tarballs.openstack.org/storyboard-webclient/storyboard-webclient-latest.tar.gz',
-    destination_dir => '/opt/storyboard-webclient',
-    extracted_dir   => 'dist',
+  exec { 'get-webclient':
+    command => "curl ${webclient_url} -z ./${webclient_filename} -o ${webclient_filename}",
+    path    => '/bin:/usr/bin',
+    cwd     => '/opt/storyboard-webclient',
+    require => File['/opt/storyboard-webclient'],
+    onlyif  => "curl -I ${webclient_url} -z ./${webclient_filename} | grep '200 OK'",
+  }
+
+  # Unpack storyboard-webclient
+  exec { 'unpack-webclient':
+    command     => "tar -xzf ./${webclient_filename}",
+    path        => '/bin:/usr/bin',
+    refreshonly => true,
+    cwd         => '/opt/storyboard-webclient',
+    require     => Exec['get-webclient'],
+    subscribe   => Exec['get-webclient'],
   }
 
   # Copy the downloaded source into the configured www_root
@@ -159,7 +187,7 @@ class storyboard::application (
     ensure  => directory,
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
-    require => Puppi::Netinstall['storyboard-webclient'],
+    require => Exec['unpack-webclient'],
     source  => '/opt/storyboard-webclient/dist',
     recurse => true,
     purge   => true,
