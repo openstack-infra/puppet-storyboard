@@ -21,6 +21,7 @@
 class storyboard::application (
 
   # Installation parameters
+  $install_root           = '/var/lib/storyboard',
   $www_root               = '/var/lib/storyboard/www',
   $server_admin           = undef,
   $hostname               = $::fqdn,
@@ -105,7 +106,7 @@ class storyboard::application (
   }
 
   # Create the root dir
-  file { '/var/lib/storyboard':
+  file { $install_root:
     ensure => directory,
     owner  => $storyboard::params::user,
     group  => $storyboard::params::group,
@@ -119,12 +120,12 @@ class storyboard::application (
   }
 
   # Install the wsgi app
-  file { '/var/lib/storyboard/storyboard.wsgi':
+  file { "${install_root}/storyboard.wsgi":
     source  => '/opt/storyboard/storyboard/api/app.wsgi',
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
     require => [
-      File['/var/lib/storyboard'],
+      File[$install_root],
       Exec['install-storyboard'],
     ],
     notify  => Service['httpd'],

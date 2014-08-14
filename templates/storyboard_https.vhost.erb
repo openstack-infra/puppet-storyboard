@@ -50,5 +50,12 @@
     WSGIDaemonProcess storyboard user=<%= scope.lookupvar("storyboard::params::user") %> group=<%= scope.lookupvar("storyboard::params::group") %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
     WSGIScriptAlias /api /var/lib/storyboard/storyboard.wsgi
     WSGIPassAuthorization On
+
+    <Directory "<%= scope.lookupvar("storyboard::application::install_root") %>">
+      Order allow,deny
+      Allow from all
+      # New directive needed in Apache 2.4.3:
+      Require all granted
+    </Directory>
   </VirtualHost>
 </IfModule>

@@ -14,4 +14,10 @@
   ErrorLog ${APACHE_LOG_DIR}/storyboard-error.log
   CustomLog ${APACHE_LOG_DIR}/storyboard-access.log combined
 
+  <Directory "<%= scope.lookupvar("storyboard::application::install_root") %>">
+    Order allow,deny
+    Allow from all
+    # New directive needed in Apache 2.4.3:
+    Require all granted
+  </Directory>
 </VirtualHost>
