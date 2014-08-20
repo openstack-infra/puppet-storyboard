@@ -35,12 +35,12 @@ class storyboard::cert (
 
   if $ssl_cert_file != undef {
     file { $ssl_cert:
-      owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
-      source  => $ssl_cert_file,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      owner  => 'root',
+      group  => 'ssl-cert',
+      mode   => '0640',
+      source => $ssl_cert_file,
+      before => Class['storyboard::application'],
+      notify => Class['storyboard::application'],
     }
   }
   elsif $ssl_cert_content != undef {
@@ -59,12 +59,12 @@ class storyboard::cert (
 
   if $ssl_key_file != undef {
     file { $ssl_key:
-      owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
-      source  => $ssl_key_file,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      owner  => 'root',
+      group  => 'ssl-cert',
+      mode   => '0640',
+      source => $ssl_key_file,
+      before => Class['storyboard::application'],
+      notify => Class['storyboard::application'],
     }
   }
   elsif $ssl_key_content != undef {
@@ -91,12 +91,12 @@ class storyboard::cert (
 
   if $ssl_ca_file != undef {
     file { $resolved_ssl_ca:
-      owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
-      source  => $ssl_ca_file,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      owner  => 'root',
+      group  => 'ssl-cert',
+      mode   => '0640',
+      source => $ssl_ca_file,
+      before => Class['storyboard::application'],
+      notify => Class['storyboard::application'],
     }
   }
   elsif $ssl_ca_content != undef {

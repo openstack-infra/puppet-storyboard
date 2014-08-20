@@ -62,10 +62,10 @@ class storyboard::application (
 
   # Create the storyboard configuration directory.
   file { '/etc/storyboard':
-    ensure  => directory,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
-    mode    => '0700',
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
+    mode   => '0700',
   }
 
   # Configure the StoryBoard API
@@ -113,9 +113,9 @@ class storyboard::application (
 
   # Create the log dir
   file { '/var/log/storyboard':
-    ensure  => directory,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
   }
 
   # Install the wsgi app
@@ -155,15 +155,15 @@ class storyboard::application (
 
   # Copy the downloaded source into the configured www_root
   file { $www_root:
-    ensure      => directory,
-    owner       => $storyboard::params::user,
-    group       => $storyboard::params::group,
-    require     => Puppi::Netinstall['storyboard-webclient'],
-    source      => '/opt/storyboard-webclient/dist',
-    recurse     => true,
-    purge       => true,
-    force       => true,
-    notify      => Service['httpd'],
+    ensure  => directory,
+    owner   => $storyboard::params::user,
+    group   => $storyboard::params::group,
+    require => Puppi::Netinstall['storyboard-webclient'],
+    source  => '/opt/storyboard-webclient/dist',
+    recurse => true,
+    purge   => true,
+    force   => true,
+    notify  => Service['httpd'],
   }
 
   # Are we setting up TLS or non-TLS?
