@@ -40,7 +40,8 @@ class storyboard::application (
   $rabbitmq_port          = 5672,
   $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password = 'changemetoo'
+  $rabbitmq_user_password = 'changemetoo',
+  $enable_notifications   = 'True'
 ) {
 
   # Variables
