@@ -25,7 +25,11 @@ class storyboard::params () {
 
   case $::osfamily {
     'Debian': {
-      # Do nothing, since all the defaults are debian-specific.
+      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
+        $apache_version = '2.4'
+      } else {
+        $apache_version = '2.2'
+      }
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} The 'storyboard' module only supports osfamily Debian.")
