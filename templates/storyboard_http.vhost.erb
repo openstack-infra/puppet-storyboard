@@ -1,5 +1,5 @@
 <VirtualHost <%= scope.lookupvar("storyboard::application::hostname") %>:80>
-<% if scope.lookupvar("storyboard::application::serveradmin") %>
+<% if scope.lookupvar("storyboard::application::serveradmin")  != :undef %>
   ServerAdmin <%= scope.lookupvar("storyboard::application::serveradmin") %>
 <% end %>
   ServerName <%= scope.lookupvar("storyboard::application::hostname") %>
