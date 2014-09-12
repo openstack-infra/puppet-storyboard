@@ -1,0 +1,10 @@
+Verified+2: Jenkins
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Workflow+1: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+1: Michael Krotscheck <krotscheck@gmail.com>
+Submitted-by: Jenkins
+Submitted-at: Fri, 12 Sep 2014 18:03:27 +0000
+Reviewed-on: https://review.openstack.org/120944
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
