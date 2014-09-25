@@ -50,6 +50,18 @@ refresh_token_ttl = <%= @refresh_token_ttl %>
 # and subscriptions.
 enable_notifications = <%= @enable_notifications %>
 
+<% if scope.lookupvar("storyboard::application::cors_allowed_origins_string") != :undef %>
+[cors]
+# W3C CORS configuration. For more information, see http://www.w3.org/TR/cors/
+
+# List of permitted CORS domains.
+allowed_origins = <%= @cors_allowed_origins_string %>
+
+# CORS browser options cache max age (in seconds)
+max_age=<%= @cors_max_age %>
+
+<% end %>
+
 [database]
 # This line MUST be changed to actually run storyboard
 # Example:

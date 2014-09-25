@@ -8,6 +8,7 @@ description 'This module configures StoryBoard either as a standalone, localhost
 project_page 'https://github.com/openstack-ci/puppet-storyboard'
 
 ## Add dependencies, if any:
+dependency 'puppetlabs/stdlib', '= 3.2.0'
 dependency 'puppetlabs/mysql', '= 0.6.1'
 dependency 'puppetlabs/apache', '= 0.0.4'
 dependency 'puppetlabs/rabbitmq', '= 4.0.0'

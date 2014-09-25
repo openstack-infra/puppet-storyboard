@@ -25,6 +25,8 @@ class storyboard::application (
   $www_root               = '/var/lib/storyboard/www',
   $server_admin           = undef,
   $hostname               = $::fqdn,
+  $cors_allowed_origins   = undef,
+  $cors_max_age           = 3600,
 
   # storyboard.conf parameters
   $access_token_ttl       = 3600,
@@ -47,6 +49,12 @@ class storyboard::application (
   # Variables
   $webclient_filename = 'storyboard-webclient-latest.tar.gz'
   $webclient_url = "http://tarballs.openstack.org/storyboard-webclient/${webclient_filename}"
+
+  if $cors_allowed_origins {
+    $cors_allowed_origins_string = join($cors_allowed_origins, ',')
+  } else {
+    $cors_allowed_origins_string = undef
+  }
 
   # Dependencies
   require storyboard::params
