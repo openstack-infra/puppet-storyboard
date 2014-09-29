@@ -146,6 +146,19 @@ instance of rabbit.
         }
     }
 
+## ::storyboard::workers
+This module installs StoryBoard's deferred processing threads.
+
+In order to process deferred requests within StoryBoard, you may run a
+configurable number of threads that process tasks from the deferred
+worker queue configured in <code>storyboard::rabbit</code>.
+
+    node default {
+        class { '::storyboard::workers':
+            worker_count => 5
+        }
+    }
+
 ## ::storyboard::load_projects
 A module that seeds the database with a predefined list of projects.
 
