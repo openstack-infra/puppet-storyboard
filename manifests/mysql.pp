@@ -20,7 +20,7 @@
 class storyboard::mysql (
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
-  $mysql_user_password = 'changeme',
+  $mysql_user_password,
 ) {
 
   # Install MySQL

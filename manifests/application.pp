@@ -36,13 +36,13 @@ class storyboard::application (
   $mysql_port             = 3306,
   $mysql_database         = 'storyboard',
   $mysql_user             = 'storyboard',
-  $mysql_user_password    = 'changeme',
+  $mysql_user_password,
 
   $rabbitmq_host          = 'localhost',
   $rabbitmq_port          = 5672,
   $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password = 'changemetoo',
+  $rabbitmq_user_password,
   $enable_notifications   = 'True'
 ) {
 
