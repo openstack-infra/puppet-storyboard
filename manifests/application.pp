@@ -205,7 +205,7 @@ class storyboard::application (
   }
 
   # Check vhost permission set.
-  $new_vhost_perms = (versioncmp($::apache::apache_version, '2.4') >= 0)
+  $new_vhost_perms = (versioncmp($::storyboard::params::apache_version, '2.4') >= 0)
 
   # Are we setting up TLS or non-TLS?
   if defined(Class['storyboard::cert']) {
