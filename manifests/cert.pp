@@ -33,6 +33,15 @@ class storyboard::cert (
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) {
 
+
+  if $ssl_cert_file =~ /snakeoil/ {
+    $req = 'ssl-cert'
+    package { 'ssl-cert':
+      ensure => latest,
+      before => [File[$ssl_cert], File[$ssl_key]],
+    }
+  }
+
   if $ssl_cert_file != undef {
     file { $ssl_cert:
       owner  => 'root',
