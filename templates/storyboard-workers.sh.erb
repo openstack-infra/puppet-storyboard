@@ -11,6 +11,7 @@
 NAME=storyboard-workers
 USER=<%= scope.lookupvar("storyboard::params::user") %>
 GROUP=<%= scope.lookupvar("storyboard::params::group") %>
+CMD_DIR="/usr/local/bin"
 CMD="storyboard-worker-daemon"
 CMD_ARGS="--worker-count <%= @worker_count %>"
 
@@ -21,7 +22,7 @@ PID=/var/run/${NAME}.pid
 
 start () {
     echo -n "Start $NAME"
-    $SSD --start --pidfile $PID --make-pidfile -u $USER -g $GROUP --background --exec $CMD -- $CMD_ARGS
+    $SSD --start --pidfile $PID --make-pidfile -u $USER -g $GROUP --background --exec "$CMD_DIR/$CMD" -- $CMD_ARGS
     RETVAL=$?
     echo
     return $RETVAL
