@@ -206,3 +206,25 @@ File content format:
       email: your_email@some_email_host.com
     - openid: https://login.launchpad.net/+id/some_other_id
       email: admin_email@some_email_host.com
+
+Beaker-Rspec
+------------
+
+This module has beaker-rspec tests
+
+To run(under vagrant):
+
+```shell
+bundle install
+BEAKER_set=precise_vagrant bundle exec rspec spec/acceptance
+```
+
+Beaker has a plugin/provider syntax. Beaker can spin up virtual machines using vagrant, docker, and other providers. See https://github.com/puppetlabs/beaker/wiki/Creating-A-Test-Environment for other ways beaker can spin up nodes.
+
+A combination of:
+https://github.com/puppetlabs/puppetlabs-java/blob/master/spec/acceptance/nodesets/centos-6-vcloud.yml
+https://github.com/puppetlabs/beaker/blob/master/lib/beaker/hypervisor/openstack.rb
+
+May be able to be combined into a working openstack.yml file to run tests against a cloud.
+
+In the case of tests running in openstack-ci, nodepool provides a virtual machine to the beaker test. Beaker then ssh's into localhost and performs configuration and testing. This is all laid out in the nodepool.yml nodeset file.
