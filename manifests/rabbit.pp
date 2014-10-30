@@ -25,7 +25,8 @@ class storyboard::rabbit (
 
   class { 'rabbitmq':
     service_manage    => true,
-    delete_guest_user => true
+    delete_guest_user => true,
+    manage_repos      => false,
   }
 
   rabbitmq_user { $rabbitmq_user:
