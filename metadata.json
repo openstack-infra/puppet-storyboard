@@ -1,0 +1,44 @@
+{
+  "name": "openstackci-storyboard",
+  "version": "0.0.1",
+  "author": "Openstack CI",
+  "summary": "Puppet module for the OpenStack StoryBoard",
+  "license": "Apache 2.0",
+  "source": "git://git.openstack.org/openstack-infra/puppet-storyboard.git",
+  "project_page": "http://ci.openstack.org/",
+  "issues_url": "https://storyboard.openstack.org/#!/project/708",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    },
+    {
+      "name": "puppetlabs/mysql",
+      "version_requirement": ">= 0.6.1"
+    },
+    {
+      "name": "openstackci/httpd",
+      "version_requirement": "= 0.0.4"
+    },
+    {
+      "name": "puppetlabs/rabbitmq",
+      "version_requirement": ">= 4.0.0"
+    },
+    {
+      "name": "example42/puppi",
+      "version_requirement": ">= 2.1.9"
+    },
+    {
+      "name": "openstackci/vcsrepo",
+      "version_requirement": ">= 0.0.8"
+    },
+    {
+      "name": "stankevich/python",
+      "version_requirement": ">= 1.6.6"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 3.2.0"
+    }
+  ]
+}
