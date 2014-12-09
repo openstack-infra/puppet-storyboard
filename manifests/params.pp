@@ -27,8 +27,10 @@ class storyboard::params () {
     'Debian': {
       if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
         $apache_version = '2.4'
+        $manage_rabbit_repo = false
       } else {
         $apache_version = '2.2'
+        $manage_rabbit_repo = true
       }
     }
     default: {
