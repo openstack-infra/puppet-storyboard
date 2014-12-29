@@ -30,21 +30,21 @@ class storyboard (
   $hostname            = $::fqdn,
   $openid_url          = 'https://login.launchpad.net/+openid',
 
-  $ssl_cert_file       = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
   $ssl_cert_content    = undef,
-  $ssl_key_file        = '/etc/ssl/private/ssl-cert-snakeoil.key',
+  $ssl_cert            = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
   $ssl_key_content     = undef,
-  $ssl_ca_file         = undef,
+  $ssl_key             = '/etc/ssl/private/ssl-cert-snakeoil.key',
   $ssl_ca_content      = undef,
+  $ssl_ca              = undef,
 ) {
 
   class { '::storyboard::cert':
-    ssl_cert_file    => $ssl_cert_file,
     ssl_cert_content => $ssl_cert_content,
-    ssl_key_file     => $ssl_key_file,
+    ssl_cert         => $ssl_cert_file,
     ssl_key_content  => $ssl_key_content,
-    ssl_ca_file      => $ssl_ca_file,
+    ssl_key          => $ssl_key_file,
     ssl_ca_content   => $ssl_ca_content,
+    ssl_ca           => $ssl_ca_file,
   }
 
   class { '::storyboard::rabbit':
