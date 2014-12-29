@@ -88,17 +88,14 @@ will be saved, however that's not strictly necessary.
 
     node default {
         class { 'storyboard::cert':
-            $ssl_cert_file    = undef,
+            $ssl_cert_file    = '/etc/ssl/certs/storyboard.openstack.org.pem',
             $ssl_cert_content = undef,
-            $ssl_cert         = '/etc/ssl/certs/storyboard.openstack.org.pem',
 
-            $ssl_key_file     = undef,
+            $ssl_key_file     = '/etc/ssl/private/storyboard.openstack.org.key',
             $ssl_key_content  = undef,
-            $ssl_key          = '/etc/ssl/private/storyboard.openstack.org.key',
 
-            $ssl_ca_file      = undef,
+            $ssl_ca_file      = '/etc/ssl/certs/ca.pem'
             $ssl_ca_content   = undef,
-            $ssl_ca           = '/etc/ssl/certs/ca.pem'
         }
     }
 
