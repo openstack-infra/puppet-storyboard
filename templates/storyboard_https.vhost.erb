@@ -28,8 +28,8 @@
 
     SSLCertificateFile      <%= scope.lookupvar("storyboard::cert::ssl_cert") %>
     SSLCertificateKeyFile   <%= scope.lookupvar("storyboard::cert::ssl_key") %>
-  <% if scope.lookupvar("storyboard::cert::ssl_ca") != :undef %>
-    SSLCertificateChainFile <%= scope.lookupvar("storyboard::cert::ssl_ca") %>
+  <% if scope.lookupvar("storyboard::cert::resolved_ssl_ca") != :undef %>
+    SSLCertificateChainFile <%= scope.lookupvar("storyboard::cert::resolved_ssl_ca") %>
   <% end %>
 
     <FilesMatch "\.(cgi|shtml|phtml|php)$">
