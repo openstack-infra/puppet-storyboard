@@ -32,8 +32,6 @@ class storyboard::application (
   $access_token_ttl       = 3600,
   $refresh_token_ttl      = 604800,
   $openid_url,
-  $enable_token_cleanup   = 'True',
-
   $mysql_host             = 'localhost',
   $mysql_port             = 3306,
   $mysql_database         = 'storyboard',
@@ -45,10 +43,7 @@ class storyboard::application (
   $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
   $rabbitmq_user_password,
-  $enable_notifications   = 'True',
-
-  $enable_cron            = 'True',
-
+  $enable_notifications   = 'True'
 ) {
 
   # Variables
