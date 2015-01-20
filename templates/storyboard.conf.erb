@@ -60,7 +60,7 @@ working_directory = <%= @working_root %>
 # Storyboard's cron management configuration
 
 # Enable or disable cron (Default disabled)
-enable = <%= @enable_cron %>
+# enable = <%= @enable_cron %>
 
 <% if scope.lookupvar("storyboard::application::cors_allowed_origins_string") != :undef %>
 [cors]
@@ -137,4 +137,4 @@ rabbit_virtual_host = <%= @rabbitmq_vhost  %>
 [plugin_token_cleaner]
 # Enable/Disable the token cleaning cron plugin. This requires cron
 # management to be enabled.
-enable = <%= @enable_token_cleanup %>
+# enable = <%= @enable_token_cleanup %>
