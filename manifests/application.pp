@@ -23,6 +23,7 @@ class storyboard::application (
   # Installation parameters
   $install_root           = '/var/lib/storyboard',
   $www_root               = '/var/lib/storyboard/www',
+  $working_root           = '/var/lib/storyboard/spool',
   $server_admin           = undef,
   $hostname               = $::fqdn,
   $cors_allowed_origins   = undef,
@@ -136,6 +137,13 @@ class storyboard::application (
     group  => $storyboard::params::group,
   }
 
+  # Create the working dir
+  file { $working_root:
+    ensure => directory,
+    owner  => $storyboard::params::user,
+    group  => $storyboard::params::group,
+  }
+
   # Create the log dir
   file { '/var/log/storyboard':
     ensure => directory,
@@ -150,6 +158,7 @@ class storyboard::application (
     group   => $storyboard::params::group,
     require => [
       File[$install_root],
+      File[$working_root],
       Exec['install-storyboard'],
     ],
     notify  => Service['httpd'],
