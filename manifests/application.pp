@@ -205,12 +205,19 @@ class storyboard::application (
     subscribe   => Exec['get-webclient'],
   }
 
+  # Create config.json
+  file { '/opt/storyboard-webclient/dist/config.json':
+    ensure  => file,
+    content => '{}',
+    require => Exec['unpack-webclient'],
+  }
+
   # Copy the downloaded source into the configured www_root
   file { $www_root:
     ensure  => directory,
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
-    require => Exec['unpack-webclient'],
+    require => File['/opt/storyboard-webclient/dist/config.json'],
     source  => '/opt/storyboard-webclient/dist',
     recurse => true,
     purge   => true,
