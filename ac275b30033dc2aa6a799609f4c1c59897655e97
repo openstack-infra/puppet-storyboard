@@ -1,0 +1,9 @@
+Code-Review+2: James E. Blair <corvus@inaugust.com>
+Verified+2: Jenkins
+Code-Review+2: Sergey Lukjanov <slukjanov@mirantis.com>
+Workflow+1: Sergey Lukjanov <slukjanov@mirantis.com>
+Submitted-by: Jenkins
+Submitted-at: Fri, 06 Feb 2015 22:51:12 +0000
+Reviewed-on: https://review.openstack.org/148757
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
