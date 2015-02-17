@@ -72,7 +72,6 @@ class storyboard::application (
     dev => true,
   }
   include python::install
-  include mysql::python
 
   if !defined(Package['git']) {
     package { 'git':
@@ -174,7 +173,6 @@ class storyboard::application (
       File['/etc/storyboard/storyboard.conf'],
     ],
     require     => [
-      Class['mysql::python'],
       File['/etc/storyboard/storyboard.conf'],
     ],
     notify      => Service['httpd'],
