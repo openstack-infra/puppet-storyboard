@@ -80,7 +80,7 @@ max_age=<%= @cors_max_age %>
 # connection = mysql://root:pass@127.0.0.1:3306/storyboard
 # Replace 127.0.0.1 above with the IP address of the database used by the
 # main storyboard server. (Leave it as is if the database runs on this host.)
-connection=mysql://<%= @mysql_user %>:<%= @mysql_user_password %>@<%= @mysql_host %>:<%= @mysql_port %>/<%= @mysql_database %>
+connection=mysql+pymysql://<%= @mysql_user %>:<%= @mysql_user_password %>@<%=@mysql_host %>:<%= @mysql_port %>/<%= @mysql_database %>
 
 # The SQLAlchemy connection string used to connect to the slave database
 # slave_connection =
