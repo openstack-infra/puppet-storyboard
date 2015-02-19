@@ -30,9 +30,11 @@ class storyboard::application (
   $cors_max_age           = 3600,
 
   # storyboard.conf parameters
+  $authorization_code_ttl = 300,
   $access_token_ttl       = 3600,
   $refresh_token_ttl      = 604800,
   $openid_url,
+  $valid_oauth_clients    = ['storyboard.openstack.org'],
   $enable_token_cleanup   = 'True',
 
   $mysql_host             = 'localhost',

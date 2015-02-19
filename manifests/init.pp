@@ -27,6 +27,8 @@ class storyboard (
   $rabbitmq_user            = 'storyboard',
   $rabbitmq_user_password,
 
+  $valid_oauth_clients = ['storyboard.openstack.org'],
+
   $hostname            = $::fqdn,
   $openid_url          = 'https://login.launchpad.net/+openid',
 
@@ -66,6 +68,7 @@ class storyboard (
     mysql_database         => $mysql_database,
     mysql_user             => $mysql_user,
     mysql_user_password    => $mysql_user_password,
+    valid_oauth_clients    => $valid_oauth_clients,
 
     rabbitmq_user          => $rabbitmq_user,
     rabbitmq_user_password => $rabbitmq_user_password
