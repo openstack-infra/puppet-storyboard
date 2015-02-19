@@ -10,7 +10,7 @@ lock_path = $state_path/lock
 
 # Storyboard's working directory. Please ensure that the storyboard user has
 # read/write access to this directory.
-working_directory = <%= @working_root %>
+working_directory = <%= scope.lookupvar("storyboard::params::working_root") %>
 
 # log_format = %(asctime)s %(levelname)8s [%(name)s] %(message)s
 # log_date_format = %Y-%m-%d %H:%M:%S
@@ -43,41 +43,41 @@ working_directory = <%= @working_root %>
 
 # Enable notifications. This feature drives deferred processing, reporting,
 # and subscriptions.
-enable_notifications = <%= @enable_notifications %>
+enable_notifications = <%= scope.lookupvar("storyboard::params::enable_notifications") ? 'True' : 'False' %>
 
 [oauth]
 # StoryBoard's oauth configuration.
 
 # OpenId Authentication endpoint
-openid_url = <%= @openid_url %>
+openid_url = <%= scope.lookupvar("storyboard::params::openid_url") %>
 
 # Time in seconds before an authorization code expires.
-authorization_code_ttl = <%= @authorization_code_ttl %>
+authorization_code_ttl = <%= scope.lookupvar("storyboard::params::authorization_code_ttl") %>
 
 # Time in seconds before an access_token expires
-access_token_ttl = <%= @access_token_ttl %>
+access_token_ttl = <%= scope.lookupvar("storyboard::params::access_token_ttl") %>
 
 # Time in seconds before an refresh_token expires
-refresh_token_ttl = <%= @refresh_token_ttl %>
+refresh_token_ttl = <%= scope.lookupvar("storyboard::params::refresh_token_ttl") %>
 
 # A list of valid client id's that may connect to StoryBoard.
-valid_oauth_clients = <%= @valid_oauth_clients.join(',') %>
+valid_oauth_clients = <%= scope.lookupvar("storyboard::params::valid_oauth_clients").join(',') %>
 
 [cron]
 # Storyboard's cron management configuration
 
 # Enable or disable cron (Default disabled)
-# enable = <%= @enable_cron %>
+# enable = <%= scope.lookupvar("storyboard::params::enable_cron") %>
 
-<% if scope.lookupvar("storyboard::application::cors_allowed_origins_string") != :undef %>
+<% if scope.lookupvar("storyboard::params::cors_allowed_origins").size > 0 %>
 [cors]
 # W3C CORS configuration. For more information, see http://www.w3.org/TR/cors/
 
 # List of permitted CORS domains.
-allowed_origins = <%= @cors_allowed_origins_string %>
+allowed_origins = <%= scope.lookupvar("storyboard::params::cors_allowed_origins").join(',') %>
 
 # CORS browser options cache max age (in seconds)
-max_age=<%= @cors_max_age %>
+max_age=<%= scope.lookupvar("storyboard::params::cors_max_age") %>
 
 <% end %>
 
@@ -87,7 +87,7 @@ max_age=<%= @cors_max_age %>
 # connection = mysql://root:pass@127.0.0.1:3306/storyboard
 # Replace 127.0.0.1 above with the IP address of the database used by the
 # main storyboard server. (Leave it as is if the database runs on this host.)
-connection=mysql+pymysql://<%= @mysql_user %>:<%= @mysql_user_password %>@<%=@mysql_host %>:<%= @mysql_port %>/<%= @mysql_database %>
+connection=<%= scope.lookupvar("storyboard::params::mysql_connection_string") %>
 
 # The SQLAlchemy connection string used to connect to the slave database
 # slave_connection =
@@ -124,24 +124,24 @@ connection=mysql+pymysql://<%= @mysql_user %>:<%= @mysql_user_password %>@<%=@my
 [notifications]
 
 # Host of the rabbitmq server.
-rabbit_host=<%= @rabbitmq_host  %>
+rabbit_host=<%= scope.lookupvar("storyboard::params::rabbitmq_host") %>
 
 # The RabbitMQ login method
 rabbit_login_method = AMQPLAIN
 
 # The RabbitMQ userid.
-rabbit_userid = <%= @rabbitmq_user  %>
+rabbit_userid = <%= scope.lookupvar("storyboard::params::rabbitmq_user") %>
 
 # The RabbitMQ password.
-rabbit_password = <%= @rabbitmq_user_password  %>
+rabbit_password = <%= scope.lookupvar("storyboard::params::rabbitmq_user_password") %>
 
 # The RabbitMQ broker port where a single node is used.
-rabbit_port = <%= @rabbitmq_port  %>
+rabbit_port = <%= scope.lookupvar("storyboard::params::rabbitmq_port") %>
 
 # The virtual host within which our queues and exchanges live.
-rabbit_virtual_host = <%= @rabbitmq_vhost  %>
+rabbit_virtual_host = <%= scope.lookupvar("storyboard::params::rabbitmq_vhost") %>
 
 [plugin_token_cleaner]
 # Enable/Disable the token cleaning cron plugin. This requires cron
 # management to be enabled.
-# enable = <%= @enable_token_cleanup %>
+# enable = <%= scope.lookupvar("storyboard::params::enable_token_cleanup") ? 'True' : 'False' %>

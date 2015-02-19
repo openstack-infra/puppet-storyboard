@@ -16,18 +16,21 @@
 #
 # This module installs the storyboard deferred processing workers.
 #
-class storyboard::workers (
-  $worker_count = 5,
-  $use_upstart = false,
-) {
+class storyboard::workers () {
 
   include storyboard::params
+  include storyboard::application
 
+  # StoryBoard Worker configuration
+  $worker_count           = $storyboard::params::worker_count
+  $worker_use_upstart     = $storyboard::params::worker_use_upstart
+
+  # Install paths for various types of install scripts
   $upstart_path = '/etc/init/storyboard-workers.conf'
   $sysvinit_path = '/etc/init.d/storyboard-workers'
 
-  if $use_upstart {
-    file { $upstart_path:
+  if $worker_use_upstart {
+    file { $worker_use_upstart:
       ensure  => file,
       owner   => root,
       group   => root,
