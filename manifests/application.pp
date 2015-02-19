@@ -21,6 +21,8 @@
 class storyboard::application (
 
   # Installation parameters
+  $src_root_api           = '/opt/storyboard',
+  $src_root_webclient     = '/opt/storyboard-webclient',
   $install_root           = '/var/lib/storyboard',
   $www_root               = '/var/lib/storyboard/www',
   $working_root           = '/var/lib/storyboard/spool',
@@ -110,7 +112,7 @@ class storyboard::application (
   }
 
   # Download the latest StoryBoard Source
-  vcsrepo { '/opt/storyboard':
+  vcsrepo { $src_root_api:
     ensure   => latest,
     provider => git,
     revision => 'master',
@@ -120,10 +122,10 @@ class storyboard::application (
 
   # Run pip
   exec { 'install-storyboard' :
-    command     => 'pip install /opt/storyboard',
+    command     => "pip install $src_root_api",
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
-    subscribe   => Vcsrepo['/opt/storyboard'],
+    subscribe   => Vcsrepo[$src_root_api],
     notify      => Service['httpd'],
     require     => [
       Class['apache::params'],
@@ -154,7 +156,7 @@ class storyboard::application (
 
   # Install the wsgi app
   file { "${install_root}/storyboard.wsgi":
-    source  => '/opt/storyboard/storyboard/api/app.wsgi',
+    source  => "$src_root_api/storyboard/api/app.wsgi",
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
     require => [
@@ -180,7 +182,7 @@ class storyboard::application (
     notify      => Service['httpd'],
   }
 
-  file { '/opt/storyboard-webclient':
+  file { $src_root_webclient:
     ensure => directory,
     owner  => $storyboard::params::user,
     group  => $storyboard::params::group,
@@ -190,8 +192,8 @@ class storyboard::application (
   exec { 'get-webclient':
     command => "curl ${webclient_url} -z ./${webclient_filename} -o ${webclient_filename}",
     path    => '/bin:/usr/bin',
-    cwd     => '/opt/storyboard-webclient',
-    require => File['/opt/storyboard-webclient'],
+    cwd     => $src_root_webclient,
+    require => File[$src_root_webclient],
     onlyif  => "curl -I ${webclient_url} -z ./${webclient_filename} | grep '200 OK'",
   }
 
@@ -200,13 +202,13 @@ class storyboard::application (
     command     => "tar -xzf ./${webclient_filename}",
     path        => '/bin:/usr/bin',
     refreshonly => true,
-    cwd         => '/opt/storyboard-webclient',
+    cwd         => $src_root_webclient,
     require     => Exec['get-webclient'],
     subscribe   => Exec['get-webclient'],
   }
 
   # Create config.json
-  file { '/opt/storyboard-webclient/dist/config.json':
+  file { "$src_root_webclient/dist/config.json":
     ensure  => file,
     content => '{}',
     require => Exec['unpack-webclient'],
@@ -217,8 +219,8 @@ class storyboard::application (
     ensure  => directory,
     owner   => $storyboard::params::user,
     group   => $storyboard::params::group,
-    require => File['/opt/storyboard-webclient/dist/config.json'],
-    source  => '/opt/storyboard-webclient/dist',
+    require => File["$src_root_webclient/dist/config.json"],
+    source  => "$src_root_webclient/dist",
     recurse => true,
     purge   => true,
     force   => true,
