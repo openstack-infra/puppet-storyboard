@@ -48,7 +48,7 @@ class storyboard (
     openid_url             => $openid_url,
   }
 
-  include ::storyboard::cert
+  include ::storyboard::apache::http
   include ::storyboard::rabbit
   include ::storyboard::mysql
   include ::storyboard::application
