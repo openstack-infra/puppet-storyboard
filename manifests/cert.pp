@@ -14,21 +14,23 @@
 
 # == Class: storyboard::cert
 #
-# This module sets up the SSL certificate for storyboard, sourcing the content of the
-# certificates either from a file or from a string. If included,
+# This module sets up the SSL certificate for storyboard, sourcing the content
+# of the certificates either from a file or from a string. If included,
 # it will be automatically detected within storyboard::application and the
 # application will be hosted over https rather than http.
 #
-class storyboard::cert (
-  $ssl_cert_content = undef,
-  $ssl_cert         = '/etc/ssl/certs/storyboard.pem',
+class storyboard::cert () {
 
-  $ssl_key_content  = undef,
-  $ssl_key          = '/etc/ssl/private/storyboard.key',
+  require ::storyboard::params
+  include ::storyboard::application
 
-  $ssl_ca_content   = undef,
-  $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
-) {
+  # Import variables.
+  $ssl_cert_content = $storyboard::params::ssl_cert_content
+  $ssl_cert         = $storyboard::params::ssl_cert
+  $ssl_key_content  = $storyboard::params::ssl_key_content
+  $ssl_key          = $storyboard::params::ssl_key
+  $ssl_ca_content   = $storyboard::params::ssl_ca_content
+  $resolved_ssl_ca  = $storyboard::params::resolved_ssl_ca
 
   if $ssl_cert_content != undef {
     file { $ssl_cert:
@@ -36,8 +38,8 @@ class storyboard::cert (
       group   => 'ssl-cert',
       mode    => '0640',
       content => $ssl_cert_content,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      before  => Class['::storyboard::application'],
+      notify  => Class['::storyboard::application'],
     }
   }
 
@@ -47,17 +49,9 @@ class storyboard::cert (
       group   => 'ssl-cert',
       mode    => '0640',
       content => $ssl_key_content,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      before  => Class['::storyboard::application'],
+      notify  => Class['::storyboard::application'],
     }
-  }
-
-  # CA file needs special treatment, since we want the path variable
-  # to be undef in some cases.
-  if $ssl_ca == undef and $ssl_ca_content != undef {
-    $resolved_ssl_ca = '/etc/ssl/certs/storyboard.ca.pem'
-  } else {
-    $resolved_ssl_ca = $ssl_ca
   }
 
   if $ssl_ca_content != undef {
@@ -66,8 +60,8 @@ class storyboard::cert (
       group   => 'ssl-cert',
       mode    => '0640',
       content => $ssl_ca_content,
-      before  => Class['storyboard::application'],
-      notify  => Class['storyboard::application'],
+      before  => Class['::storyboard::application'],
+      notify  => Class['::storyboard::application'],
     }
   }
 }

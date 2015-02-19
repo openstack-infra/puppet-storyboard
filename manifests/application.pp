@@ -18,56 +18,29 @@
 # host. If storyboard::cert is defined, it will use a https vhost, otherwise
 # it'll just use http.
 #
-class storyboard::application (
+class storyboard::application () {
+
+  # Load parameters
+  require storyboard::params
+
+  # Download source for the webclient tarball
+  $webclient_filename     = $storyboard::params::webclient_filename
+  $webclient_url          = $storyboard::params::webclient_url
+
+  # The user under which storyboard will run.
+  $user                   = $storyboard::params::user
+  $group                  = $storyboard::params::group
 
   # Installation parameters
-  $src_root_api           = '/opt/storyboard',
-  $src_root_webclient     = '/opt/storyboard-webclient',
-  $install_root           = '/var/lib/storyboard',
-  $www_root               = '/var/lib/storyboard/www',
-  $working_root           = '/var/lib/storyboard/spool',
-  $server_admin           = undef,
-  $hostname               = $::fqdn,
-  $cors_allowed_origins   = undef,
-  $cors_max_age           = 3600,
-
-  # storyboard.conf parameters
-  $authorization_code_ttl = 300,
-  $access_token_ttl       = 3600,
-  $refresh_token_ttl      = 604800,
-  $openid_url,
-  $valid_oauth_clients    = ['storyboard.openstack.org'],
-  $enable_token_cleanup   = 'True',
-
-  $mysql_host             = 'localhost',
-  $mysql_port             = 3306,
-  $mysql_database         = 'storyboard',
-  $mysql_user             = 'storyboard',
-  $mysql_user_password,
-
-  $rabbitmq_host          = 'localhost',
-  $rabbitmq_port          = 5672,
-  $rabbitmq_vhost         = '/',
-  $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password,
-  $enable_notifications   = 'True',
-
-  $enable_cron            = 'True',
-
-) {
-
-  # Variables
-  $webclient_filename = 'storyboard-webclient-latest.tar.gz'
-  $webclient_url = "http://tarballs.openstack.org/storyboard-webclient/${webclient_filename}"
-
-  if $cors_allowed_origins {
-    $cors_allowed_origins_string = join($cors_allowed_origins, ',')
-  } else {
-    $cors_allowed_origins_string = undef
-  }
+  $src_root_api           = $storyboard::params::src_root_api
+  $src_root_webclient     = $storyboard::params::src_root_webclient
+  $install_root_api       = $storyboard::params::install_root_api
+  $install_root_webclient = $storyboard::params::install_root_webclient
+  $working_root           = $storyboard::params::working_root
+  $hostname               = $storyboard::params::hostname
+  $new_vhost_perms        = $storyboard::params::new_vhost_perms
 
   # Dependencies
-  require storyboard::params
   include apache
   include apache::mod::wsgi
 
@@ -92,21 +65,20 @@ class storyboard::application (
   # Create the storyboard configuration directory.
   file { '/etc/storyboard':
     ensure => directory,
-    owner  => $storyboard::params::user,
-    group  => $storyboard::params::group,
+    owner  => $user,
+    group  => $group,
     mode   => '0700',
   }
 
   # Configure the StoryBoard API
   file { '/etc/storyboard/storyboard.conf':
     ensure  => present,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
     mode    => '0400',
     content => template('storyboard/storyboard.conf.erb'),
     notify  => Service['httpd'],
     require => [
-      Class['apache::params'],
       File['/etc/storyboard']
     ]
   }
@@ -128,39 +100,38 @@ class storyboard::application (
     subscribe   => Vcsrepo[$src_root_api],
     notify      => Service['httpd'],
     require     => [
-      Class['apache::params'],
       Class['python::install'],
     ]
   }
 
   # Create the root dir
-  file { $install_root:
+  file { $install_root_api:
     ensure => directory,
-    owner  => $storyboard::params::user,
-    group  => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
   }
 
   # Create the working dir
   file { $working_root:
     ensure => directory,
-    owner  => $storyboard::params::user,
-    group  => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
   }
 
   # Create the log dir
   file { '/var/log/storyboard':
     ensure => directory,
-    owner  => $storyboard::params::user,
-    group  => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
   }
 
   # Install the wsgi app
-  file { "${install_root}/storyboard.wsgi":
+  file { "${install_root_api}/storyboard.wsgi":
     source  => "${src_root_api}/storyboard/api/app.wsgi",
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
     require => [
-      File[$install_root],
+      File[$install_root_api],
       File[$working_root],
       Exec['install-storyboard'],
     ],
@@ -184,8 +155,8 @@ class storyboard::application (
 
   file { $src_root_webclient:
     ensure => directory,
-    owner  => $storyboard::params::user,
-    group  => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
   }
 
   # Download the latest storyboard-webclient
@@ -215,10 +186,10 @@ class storyboard::application (
   }
 
   # Copy the downloaded source into the configured www_root
-  file { $www_root:
+  file { $install_root_webclient:
     ensure  => directory,
-    owner   => $storyboard::params::user,
-    group   => $storyboard::params::group,
+    owner   => $user,
+    group   => $group,
     require => File["${src_root_webclient}/dist/config.json"],
     source  => "${src_root_webclient}/dist",
     recurse => true,
@@ -227,15 +198,12 @@ class storyboard::application (
     notify  => Service['httpd'],
   }
 
-  # Check vhost permission set.
-  $new_vhost_perms = (versioncmp($::storyboard::params::apache_version, '2.4') >= 0)
-
   # Are we setting up TLS or non-TLS?
   if defined(Class['storyboard::cert']) {
     # Set up storyboard as HTTPS
     apache::vhost { $hostname:
       port     => 443,
-      docroot  => $www_root,
+      docroot  => $install_root_webclient,
       priority => '50',
       template => 'storyboard/storyboard_https.vhost.erb',
       ssl      => true,
@@ -244,7 +212,7 @@ class storyboard::application (
     # Set up storyboard as HTTPS
     apache::vhost { $hostname:
       port     => 80,
-      docroot  => $www_root,
+      docroot  => $install_root_webclient,
       priority => '50',
       template => 'storyboard/storyboard_http.vhost.erb',
       ssl      => false,
