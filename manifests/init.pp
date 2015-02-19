@@ -23,58 +23,34 @@ class storyboard (
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
   $mysql_user_password,
-
-  $rabbitmq_user            = 'storyboard',
+  $rabbitmq_user       = 'storyboard',
   $rabbitmq_user_password,
-
-  $valid_oauth_clients = ['storyboard.openstack.org'],
-
-  $hostname            = $::fqdn,
+  $hostname            = $::ipaddress,
   $openid_url          = 'https://login.launchpad.net/+openid',
-
-  $ssl_cert_content    = undef,
-  $ssl_cert            = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-  $ssl_key_content     = undef,
-  $ssl_key             = '/etc/ssl/private/ssl-cert-snakeoil.key',
-  $ssl_ca_content      = undef,
-  $ssl_ca              = undef,
 ) {
 
-  class { '::storyboard::cert':
-    ssl_cert_content => $ssl_cert_content,
-    ssl_cert         => $ssl_cert,
-    ssl_key_content  => $ssl_key_content,
-    ssl_key          => $ssl_key,
-    ssl_ca_content   => $ssl_ca_content,
-    ssl_ca           => $ssl_ca,
-  }
-
-  class { '::storyboard::rabbit':
-    rabbitmq_user          => $rabbitmq_user,
-    rabbitmq_user_password => $rabbitmq_user_password
-  }
-
-  class { '::storyboard::mysql':
-    mysql_database      => $mysql_database,
-    mysql_user          => $mysql_user,
-    mysql_user_password => $mysql_user_password,
-  }
-
-  class { '::storyboard::application':
-    hostname               => $hostname,
-    openid_url             => $openid_url,
-    mysql_host             => 'localhost',
-    mysql_port             => 3306,
+  # Configure the entire storyboard instance. This does not install anything,
+  # but ensures that variables are consistent across all modules.
+  class { '::storyboard::params':
     mysql_database         => $mysql_database,
     mysql_user             => $mysql_user,
     mysql_user_password    => $mysql_user_password,
-    valid_oauth_clients    => $valid_oauth_clients,
+
+    ssl_cert               => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+    ssl_key                => '/etc/ssl/private/ssl-cert-snakeoil.key',
 
     rabbitmq_user          => $rabbitmq_user,
-    rabbitmq_user_password => $rabbitmq_user_password
+    rabbitmq_user_password => $rabbitmq_user_password,
+
+    valid_oauth_clients    => [$hostname],
+
+    hostname               => $hostname,
+    openid_url             => $openid_url,
   }
 
-  class { '::storyboard::workers':
-    worker_count => 5,
-  }
+  include ::storyboard::cert
+  include ::storyboard::rabbit
+  include ::storyboard::mysql
+  include ::storyboard::application
+  include ::storyboard::workers
 }
