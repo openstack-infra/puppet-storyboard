@@ -1,12 +1,12 @@
-<VirtualHost <%= scope.lookupvar("storyboard::params::hostname") %>:80>
-<% if scope.lookupvar("storyboard::params::server_admin") != :undef %>
-  ServerAdmin <%= scope.lookupvar("storyboard::params::server_admin") %>
+<VirtualHost <%= @hostname %>:80>
+<% if !!@server_admin %>
+  ServerAdmin <%= @server_admin %>
 <% end %>
-  ServerName <%= scope.lookupvar("storyboard::params::hostname") %>
+  ServerName <%= @hostname %>
 
-  DocumentRoot <%= scope.lookupvar("storyboard::params::install_root_webclient") %>
+  DocumentRoot <%= @install_root_webclient %>
 
-  WSGIDaemonProcess storyboard user=<%= scope.lookupvar("storyboard::params::user") %> group=<%= scope.lookupvar("storyboard::params::group") %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
+  WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
   WSGIScriptAlias /api /var/lib/storyboard/storyboard.wsgi
   WSGIPassAuthorization On
 
@@ -14,7 +14,7 @@
   ErrorLog ${APACHE_LOG_DIR}/storyboard-error.log
   CustomLog ${APACHE_LOG_DIR}/storyboard-access.log combined
 
-  <Directory "<%= scope.lookupvar("storyboard::params::install_root_api") %>">
+  <Directory "<%= @install_root_api %>">
     <% if @new_vhost_perms %>
       Require all granted
     <% else %>
