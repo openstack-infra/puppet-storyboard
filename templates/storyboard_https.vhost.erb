@@ -1,12 +1,12 @@
-<VirtualHost <%= scope.lookupvar("storyboard::params::hostname") %>:80>
-<% if scope.lookupvar("storyboard::params::server_admin") != :undef %>
-    ServerAdmin <%= scope.lookupvar("storyboard::params::server_admin") %>
-<% end %>
-    ServerName <%= scope.lookupvar("storyboard::params::hostname") %>
+<VirtualHost <%= @hostname %>:80>
+  <% if !!@server_admin %>
+    ServerAdmin <%= @server_admin %>
+  <% end %>
+    ServerName <%= @hostname %>
 
-    DocumentRoot <%= scope.lookupvar("storyboard::params::install_root_webclient") %>
+    DocumentRoot <%= @install_root_webclient %>
 
-    Redirect / https://<%= scope.lookupvar("storyboard::params::hostname") %>/
+    Redirect / https://<%= @hostname %>/
 
     LogLevel warn
     ErrorLog ${APACHE_LOG_DIR}/storyboard-error.log
@@ -14,11 +14,11 @@
 
 </VirtualHost>
 <IfModule mod_ssl.c>
-  <VirtualHost <%= scope.lookupvar("storyboard::params::hostname") %>:443>
-  <% if scope.lookupvar("storyboard::params::server_admin") != :undef %>
-    ServerAdmin <%= scope.lookupvar("storyboard::params::server_admin") %>
+  <VirtualHost <%= @hostname %>:443>
+  <% if !!@server_admin %>
+    ServerAdmin <%= @server_admin %>
   <% end %>
-    ServerName <%= scope.lookupvar("storyboard::params::hostname") %>
+    ServerName <%= @hostname %>
 
     LogLevel warn
     ErrorLog ${APACHE_LOG_DIR}/storyboard-ssl-error.log
@@ -26,10 +26,10 @@
 
     SSLEngine on
 
-    SSLCertificateFile      <%= scope.lookupvar("storyboard::cert::ssl_cert") %>
-    SSLCertificateKeyFile   <%= scope.lookupvar("storyboard::cert::ssl_key") %>
-  <% if scope.lookupvar("storyboard::cert::resolved_ssl_ca") != :undef %>
-    SSLCertificateChainFile <%= scope.lookupvar("storyboard::cert::resolved_ssl_ca") %>
+    SSLCertificateFile      <%= @ssl_cert %>
+    SSLCertificateKeyFile   <%= @ssl_key %>
+  <% if !!@resolved_ssl_ca %>
+    SSLCertificateChainFile <%= @resolved_ssl_ca %>
   <% end %>
 
     <FilesMatch "\.(cgi|shtml|phtml|php)$">
@@ -45,13 +45,13 @@
     # MSIE 7 and newer should be able to use keepalive
     BrowserMatch "MSIE [17-9]" ssl-unclean-shutdown
 
-    DocumentRoot <%= scope.lookupvar("storyboard::params::install_root_webclient") %>
+    DocumentRoot <%= @install_root_webclient %>
 
-    WSGIDaemonProcess storyboard user=<%= scope.lookupvar("storyboard::params::user") %> group=<%= scope.lookupvar("storyboard::params::group") %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
+    WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
     WSGIScriptAlias /api /var/lib/storyboard/storyboard.wsgi
     WSGIPassAuthorization On
 
-    <Directory "<%= scope.lookupvar("storyboard::params::install_root_api") %>">
+    <Directory "<%= @install_root_api %>">
       <% if @new_vhost_perms %>
         Require all granted
       <% else %>
