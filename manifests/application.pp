@@ -29,25 +29,30 @@ class storyboard::application (
   $cors_allowed_origins   = undef,
   $cors_max_age           = 3600,
 
-  # storyboard.conf parameters
+# storyboard.conf parameters
+  $authorization_code_ttl = 300,
   $access_token_ttl       = 3600,
   $refresh_token_ttl      = 604800,
   $openid_url,
+  $valid_oauth_clients    = ['storyboard.openstack.org'],
   $enable_token_cleanup   = 'True',
 
+  # [database] storyboard.conf
   $mysql_host             = 'localhost',
   $mysql_port             = 3306,
   $mysql_database         = 'storyboard',
   $mysql_user             = 'storyboard',
   $mysql_user_password,
 
+  # [notifications] storyboard.conf
+  $enable_notifications   = 'True',
   $rabbitmq_host          = 'localhost',
   $rabbitmq_port          = 5672,
   $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
   $rabbitmq_user_password,
-  $enable_notifications   = 'True',
 
+  # [cron] storyboard.conf
   $enable_cron            = 'True',
 
 ) {
