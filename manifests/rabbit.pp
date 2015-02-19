@@ -18,17 +18,18 @@
 # which is used to handle deferred processing and reporting tasks for
 # StoryBoard.
 #
-class storyboard::rabbit (
-  $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password
-) {
+class storyboard::rabbit () {
 
   require storyboard::params
+
+  $rabbitmq_user          = $storyboard::params::rabbitmq_user
+  $rabbitmq_user_password = $storyboard::params::rabbitmq_user_password
+  $manage_rabbit_repo     = $storyboard::params::manage_rabbit_repo
 
   class { 'rabbitmq':
     service_manage    => true,
     delete_guest_user => true,
-    manage_repos      => $storyboard::params::manage_rabbit_repo,
+    manage_repos      => $manage_rabbit_repo,
   }
 
   rabbitmq_user { $rabbitmq_user:

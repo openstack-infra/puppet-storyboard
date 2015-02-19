@@ -17,11 +17,14 @@
 # The StoryBoard MySQL manifest will install a standalone, localhost instance
 # of mysql for storyboard to connect to.
 #
-class storyboard::mysql (
-  $mysql_database      = 'storyboard',
-  $mysql_user          = 'storyboard',
-  $mysql_user_password,
-) {
+class storyboard::mysql () {
+
+  require storyboard::params
+
+  # Import parameters.
+  $mysql_database      = $storyboard::params::mysql_database
+  $mysql_user          = $storyboard::params::mysql_user
+  $mysql_user_password = $storyboard::params::mysql_user_password
 
   # Install MySQL
   include mysql::server
