@@ -15,8 +15,8 @@
 # == Class: storyboard::application
 #
 # This module installs the storyboard webclient and the api onto the current
-# host. If storyboard::cert is defined, it will use a https vhost, otherwise
-# it'll just use http.
+# host. It does not install any apache2 wsgi host - for that please choose
+# to include either storyboard::apache::http or storyboard::apache::https.
 #
 class storyboard::application () {
 
@@ -37,12 +37,6 @@ class storyboard::application () {
   $install_root_api       = $storyboard::params::install_root_api
   $install_root_webclient = $storyboard::params::install_root_webclient
   $working_root           = $storyboard::params::working_root
-  $hostname               = $storyboard::params::hostname
-  $new_vhost_perms        = $storyboard::params::new_vhost_perms
-
-  # Dependencies
-  include apache
-  include apache::mod::wsgi
 
   class { 'python':
     pip => true,
@@ -77,7 +71,6 @@ class storyboard::application () {
     group   => $group,
     mode    => '0400',
     content => template('storyboard/storyboard.conf.erb'),
-    notify  => Service['httpd'],
     require => [
       File['/etc/storyboard']
     ]
@@ -98,7 +91,6 @@ class storyboard::application () {
     path        => '/usr/local/bin:/usr/bin:/bin/',
     refreshonly => true,
     subscribe   => Vcsrepo[$src_root_api],
-    notify      => Service['httpd'],
     require     => [
       Class['python::install'],
     ]
@@ -125,19 +117,6 @@ class storyboard::application () {
     group   => $group,
   }
 
-  # Install the wsgi app
-  file { "${install_root_api}/storyboard.wsgi":
-    source  => "${src_root_api}/storyboard/api/app.wsgi",
-    owner   => $user,
-    group   => $group,
-    require => [
-      File[$install_root_api],
-      File[$working_root],
-      Exec['install-storyboard'],
-    ],
-    notify  => Service['httpd'],
-  }
-
   # Migrate the database
   exec { 'migrate-storyboard-db':
     command     => 'storyboard-db-manage --config-file /etc/storyboard/storyboard.conf upgrade head',
@@ -150,7 +129,6 @@ class storyboard::application () {
     require     => [
       File['/etc/storyboard/storyboard.conf'],
     ],
-    notify      => Service['httpd'],
   }
 
   file { $src_root_webclient:
@@ -195,27 +173,5 @@ class storyboard::application () {
     recurse => true,
     purge   => true,
     force   => true,
-    notify  => Service['httpd'],
-  }
-
-  # Are we setting up TLS or non-TLS?
-  if defined(Class['storyboard::cert']) {
-    # Set up storyboard as HTTPS
-    apache::vhost { $hostname:
-      port     => 443,
-      docroot  => $install_root_webclient,
-      priority => '50',
-      template => 'storyboard/storyboard_https.vhost.erb',
-      ssl      => true,
-    }
-  } else {
-    # Set up storyboard as HTTPS
-    apache::vhost { $hostname:
-      port     => 80,
-      docroot  => $install_root_webclient,
-      priority => '50',
-      template => 'storyboard/storyboard_http.vhost.erb',
-      ssl      => false,
-    }
   }
 }
