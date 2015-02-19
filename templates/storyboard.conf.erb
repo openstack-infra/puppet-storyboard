@@ -51,11 +51,17 @@ enable_notifications = <%= @enable_notifications %>
 # OpenId Authentication endpoint
 openid_url = <%= @openid_url %>
 
+# Time in seconds before an authorization code expires.
+authorization_code_ttl = <%= @authorization_code_ttl %>
+
 # Time in seconds before an access_token expires
 access_token_ttl = <%= @access_token_ttl %>
 
 # Time in seconds before an refresh_token expires
 refresh_token_ttl = <%= @refresh_token_ttl %>
+
+# A list of valid client id's that may connect to StoryBoard.
+valid_oauth_clients = <%= @valid_oauth_clients.join(',') %>
 
 [cron]
 # Storyboard's cron management configuration
