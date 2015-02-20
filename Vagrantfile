@@ -6,24 +6,38 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/trusty64"
-  config.vm.hostname = "puppet-storyboard"
+  # Create an ubuntu/precise box against which we can run our module.
+  config.vm.define "precise" do |precise|
+    # Define the box.
+    precise.vm.box = "ubuntu/precise64"
+    precise.vm.hostname = "puppet-storyboard-precise64"
 
-  # Private network so we have a static IP to map against instead of
-  # crazy insecure port forwarding.
-  config.vm.network "private_network", ip: "192.168.99.22"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  config.vm.provider :virtualbox do |vb|
-    vb.customize ['modifyvm', :id,'--memory', '2048']
-    vb.name = 'puppet-storyboard'
+    config.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id,'--memory', '2048']
+      vb.name = 'puppet-storyboard-precise64'
     end
 
-  config.vm.provision "shell", path: "vagrant.sh"
+    # Grant a private IP
+    precise.vm.network "private_network", ip: "192.168.99.22"
+  end
 
+  # Create an ubuntu/trusty box against which we can run our module.
+  config.vm.define "trusty" do |trusty|
+    # Define the box.
+    trusty.vm.box = "ubuntu/trusty64"
+    trusty.vm.hostname = "puppet-storyboard-trusty64"
+
+    config.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id,'--memory', '2048']
+      vb.name = 'puppet-storyboard-trusty64'
+    end
+
+    # Grant a private IP
+    trusty.vm.network "private_network", ip: "192.168.99.23"
+  end
+
+  # All VM's run the same provisioning
+  config.vm.provision "shell", path: "vagrant.sh"
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = ['vm', "/vagrant"]
     puppet.manifest_file = "vagrant.pp"

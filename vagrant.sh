@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Install Puppet!
+if [ ! -f /etc/apt/sources.list.d/puppetlabs.list ]; then
+  lsbdistcodename=`lsb_release -c -s`
+  puppet_deb=puppetlabs-release-${lsbdistcodename}.deb
+  wget https://apt.puppetlabs.com/puppetlabs-release-precise.deb
+  sudo dpkg -i puppetlabs-release-precise.deb
+  sudo apt-get update
+  sudo apt-get dist-upgrade -y
+fi
+
 if [ ! -d /etc/puppet/modules/stdlib ]; then
   puppet module install puppetlabs-stdlib --version 3.2.0
 fi
