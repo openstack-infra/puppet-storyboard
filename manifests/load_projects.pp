@@ -33,6 +33,7 @@ class storyboard::load_projects (
   include storyboard::application
 
   $project_file_path = '/var/lib/storyboard/projects.yaml'
+  $install_root_api  = $storyboard::params::install_root_api
 
   file { $project_file_path:
     ensure  => present,
@@ -48,7 +49,7 @@ class storyboard::load_projects (
 
   exec { 'load-projects-yaml':
     command     => "storyboard-db-manage --config-file /etc/storyboard/storyboard.conf load_projects ${project_file_path}",
-    path        => '/usr/local/bin:/usr/bin:/bin/',
+    path        => "${install_root_api}/bin/:/usr/local/bin:/usr/bin:/bin/",
     refreshonly => true,
     subscribe   => File[$project_file_path],
     require     => File[$project_file_path],

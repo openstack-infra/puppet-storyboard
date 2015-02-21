@@ -18,12 +18,6 @@
 #
 class storyboard::params (
 
-  # Working and Install directories
-  $src_root_api           = '/opt/storyboard',
-  $src_root_webclient     = '/opt/storyboard-webclient',
-  $install_root_api       = '/var/lib/storyboard',
-  $install_root_webclient = '/var/lib/storyboard/www',
-
   # The user under which storyboard will run.
   $user                   = $apache::params::user,
   $group                  = $apache::params::group,
@@ -31,7 +25,6 @@ class storyboard::params (
   $hostname               = $::ipaddress,
 
   # [default] storyboard.conf
-  $working_root           = '/var/lib/storyboard/spool',
   $enable_notifications   = true,
 
   # [oauth] storyboard.conf
@@ -77,6 +70,16 @@ class storyboard::params (
   $ssl_ca_content   = undef,
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) inherits apache::params {
+
+  # Define the python version
+  $python_version = '2.7'
+
+  # Working and Install directories
+  $src_root_api           = "/opt/storyboard-py${python_version}"
+  $src_root_webclient     = "/opt/storyboard-webclient"
+  $install_root_api       = "/var/lib/storyboard-py${python_version}"
+  $install_root_webclient = "${$install_root_api}/www"
+  $working_root           = "${$install_root_api}/spool"
 
   # Download source
   $webclient_filename     = 'storyboard-webclient-latest.tar.gz'

@@ -9,9 +9,9 @@
 #### END INIT INFO
 
 NAME=storyboard-workers
-USER=<%= scope.lookupvar("storyboard::params::user") %>
-GROUP=<%= scope.lookupvar("storyboard::params::group") %>
-CMD_DIR="/usr/local/bin"
+USER=<%= @user %>
+GROUP=<%= @group %>
+CMD_DIR="<%= @install_root_api %>/bin"
 CMD="storyboard-worker-daemon"
 CMD_ARGS="--worker-count <%= @worker_count %>"
 

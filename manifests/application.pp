@@ -38,9 +38,14 @@ class storyboard::application () {
   $install_root_webclient = $storyboard::params::install_root_webclient
   $working_root           = $storyboard::params::working_root
 
+  # The python version
+  $python_version         = $storyboard::params::python_version
+
   class { 'python':
-    pip => true,
-    dev => true,
+    version    => $python_version,
+    pip        => true,
+    dev        => true,
+    virtualenv => true,
   }
   include python::install
 
@@ -85,22 +90,33 @@ class storyboard::application () {
     require  => Package['git']
   }
 
-  # Run pip
-  exec { 'install-storyboard' :
-    command     => "pip install ${src_root_api}",
-    path        => '/usr/local/bin:/usr/bin:/bin/',
-    refreshonly => true,
-    subscribe   => Vcsrepo[$src_root_api],
-    require     => [
-      Class['python::install'],
-    ]
-  }
-
   # Create the root dir
   file { $install_root_api:
     ensure  => directory,
     owner   => $user,
     group   => $group,
+  }
+
+  # Create a virtual environment for storyboard.
+  python::virtualenv { $install_root_api:
+    ensure       => present,
+    version      => $python_version,
+    owner        => $user,
+    group        => $group,
+    require      => [
+      File[$install_root_api],
+      Class['python::install'],
+    ],
+    systempkgs   => false,
+  }
+
+  # Run pip from the venv, install storyboard.
+  python::pip { 'storyboard':
+    pkgname    => 'storyboard',
+    ensure     => present,
+    virtualenv => $install_root_api,
+    url        => "file://${src_root_api}",
+    owner      => $user,
   }
 
   # Create the working dir
@@ -120,17 +136,19 @@ class storyboard::application () {
   # Migrate the database
   exec { 'migrate-storyboard-db':
     command     => 'storyboard-db-manage --config-file /etc/storyboard/storyboard.conf upgrade head',
-    path        => '/usr/local/bin:/usr/bin:/bin/',
+    path        => "${install_root_api}/bin/:/usr/local/bin:/usr/bin:/bin/",
     refreshonly => true,
     subscribe   => [
-      Exec['install-storyboard'],
+      Python::Pip['storyboard'],
       File['/etc/storyboard/storyboard.conf'],
     ],
     require     => [
+      Python::Pip['storyboard'],
       File['/etc/storyboard/storyboard.conf'],
     ],
   }
 
+  # Create the download directory for the webclient.
   file { $src_root_webclient:
     ensure  => directory,
     owner   => $user,

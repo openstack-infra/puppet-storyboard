@@ -31,6 +31,7 @@ class storyboard::apache::https () {
   $group                  = $storyboard::params::group
   $server_admin           = $storyboard::params::server_admin
   $new_vhost_perms        = $storyboard::params::new_vhost_perms
+  $python_version         = $storyboard::params::python_version
 
   $ssl_cert_content       = $storyboard::params::ssl_cert_content
   $ssl_cert               = $storyboard::params::ssl_cert
@@ -71,14 +72,6 @@ class storyboard::apache::https () {
       content => $ssl_ca_content,
       notify  => Service['httpd'],
     }
-  }
-
-  # Install the wsgi app
-  file { "${install_root_api}/storyboard.wsgi":
-    source  => "${src_root_api}/storyboard/api/app.wsgi",
-    owner   => $user,
-    group   => $group,
-    notify  => Service['httpd'],
   }
 
   # Set up storyboard as HTTPS

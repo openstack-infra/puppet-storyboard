@@ -24,6 +24,11 @@ class storyboard::workers () {
   # StoryBoard Worker configuration
   $worker_count           = $storyboard::params::worker_count
   $worker_use_upstart     = $storyboard::params::worker_use_upstart
+  $install_root_api       = $storyboard::params::install_root_api
+
+  # The user under which storyboard will run.
+  $user                   = $storyboard::params::user
+  $group                  = $storyboard::params::group
 
   # Install paths for various types of install scripts
   $upstart_path = '/etc/init/storyboard-workers.conf'

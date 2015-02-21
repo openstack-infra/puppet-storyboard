@@ -1,3 +1,5 @@
+WSGIPythonHome <%= @install_root_api %>
+
 <VirtualHost <%= @hostname %>:80>
   <% if !!@server_admin %>
     ServerAdmin <%= @server_admin %>
@@ -47,8 +49,8 @@
 
     DocumentRoot <%= @install_root_webclient %>
 
-    WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5 python-path=/usr/local/lib/python2.7/dist-packages
-    WSGIScriptAlias /api /var/lib/storyboard/storyboard.wsgi
+    WSGIDaemonProcess storyboard user=<%= @user %> group=<%= @group %> threads=5
+    WSGIScriptAlias /api <%= @install_root_api %>/lib/python<%= @python_version %>/site-packages/storyboard/api/app.wsgi
     WSGIPassAuthorization On
 
     <Directory "<%= @install_root_api %>">
