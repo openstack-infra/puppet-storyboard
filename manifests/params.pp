@@ -96,21 +96,7 @@ class storyboard::params (
     $resolved_ssl_ca = $ssl_ca
   }
 
-  # Resolve a few parameters based on the install environment.
-  case $::osfamily {
-    'Debian': {
-      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
-        $apache_version = '2.4'
-        $manage_rabbit_repo = false
-        $new_vhost_perms = true
-      } else {
-        $apache_version = '2.2'
-        $manage_rabbit_repo = true
-        $new_vhost_perms = false
-      }
-    }
-    default: {
-      fail("Unsupported osfamily: ${::osfamily} The 'storyboard' module only supports osfamily Debian.")
-    }
+  if $::operatingsystemrelease < 14.04 {
+    fail("Unsupported operating system: The 'storyboard' module only supports ubuntu trusty.")
   }
 }
