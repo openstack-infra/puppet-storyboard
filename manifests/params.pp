@@ -18,12 +18,6 @@
 #
 class storyboard::params (
 
-  # Working and Install directories
-  $src_root_api           = '/opt/storyboard',
-  $src_root_webclient     = '/opt/storyboard-webclient',
-  $install_root_api       = '/var/lib/storyboard',
-  $install_root_webclient = '/var/lib/storyboard/www',
-
   # The user under which storyboard will run.
   $user                   = $apache::params::user,
   $group                  = $apache::params::group,
@@ -31,7 +25,6 @@ class storyboard::params (
   $hostname               = $::ipaddress,
 
   # [default] storyboard.conf
-  $working_root           = '/var/lib/storyboard/spool',
   $enable_notifications   = true,
 
   # [oauth] storyboard.conf
@@ -78,6 +71,33 @@ class storyboard::params (
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
 ) inherits apache::params {
 
+  # Resolve a few parameters based on the install environment.
+  case $::osfamily {
+    'Debian': {
+      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
+        $apache_version = '2.4'
+        $python_version = '2.7'
+        $manage_rabbit_repo = false
+        $new_vhost_perms = true
+      } else {
+        $apache_version = '2.2'
+        $python_version = '2.7'
+        $manage_rabbit_repo = true
+        $new_vhost_perms = false
+      }
+    }
+    default: {
+      fail("Unsupported osfamily: ${::osfamily} The 'storyboard' module only supports osfamily Debian.")
+    }
+  }
+
+  # Working and Install directories
+  $src_root_api           = "/opt/storyboard-py${python_version}"
+  $src_root_webclient     = "/opt/storyboard-webclient"
+  $install_root_api       = "/var/lib/storyboard-py${python_version}"
+  $install_root_webclient = "${$install_root_api}/www"
+  $working_root           = "${$install_root_api}/spool"
+
   # Download source
   $webclient_filename     = 'storyboard-webclient-latest.tar.gz'
   $webclient_url          = "http://tarballs.openstack.org/storyboard-webclient/${webclient_filename}"
@@ -91,23 +111,5 @@ class storyboard::params (
     $resolved_ssl_ca = '/etc/ssl/certs/storyboard.ca.pem'
   } else {
     $resolved_ssl_ca = $ssl_ca
-  }
-
-  # Resolve a few parameters based on the install environment.
-  case $::osfamily {
-    'Debian': {
-      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
-        $apache_version = '2.4'
-        $manage_rabbit_repo = false
-        $new_vhost_perms = true
-      } else {
-        $apache_version = '2.2'
-        $manage_rabbit_repo = true
-        $new_vhost_perms = false
-      }
-    }
-    default: {
-      fail("Unsupported osfamily: ${::osfamily} The 'storyboard' module only supports osfamily Debian.")
-    }
   }
 }

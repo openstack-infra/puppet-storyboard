@@ -30,18 +30,11 @@ class storyboard::apache::http () {
   $group                  = $storyboard::params::group
   $server_admin           = $storyboard::params::server_admin
   $new_vhost_perms        = $storyboard::params::new_vhost_perms
+  $python_version         = $storyboard::params::python_version
 
   # Install apache
   include apache
   include apache::mod::wsgi
-
-  # Install the wsgi app
-  file { "${install_root_api}/storyboard.wsgi":
-    source  => "${src_root_api}/storyboard/api/app.wsgi",
-    owner   => $user,
-    group   => $group,
-    notify  => Service['httpd'],
-  }
 
   # Set up storyboard as HTTP
   apache::vhost { $hostname:

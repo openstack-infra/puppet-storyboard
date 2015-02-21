@@ -29,6 +29,7 @@ class storyboard::load_superusers (
   include storyboard::application
 
   $superuser_file_path = '/var/lib/storyboard/superusers.yaml'
+  $install_root_api  = $storyboard::params::install_root_api
 
   file { $superuser_file_path:
     ensure  => present,
@@ -44,7 +45,7 @@ class storyboard::load_superusers (
 
   exec { 'load-superusers-yaml':
     command     => "storyboard-db-manage --config-file /etc/storyboard/storyboard.conf load_superusers ${superuser_file_path}",
-    path        => '/usr/local/bin:/usr/bin:/bin/',
+    path        => "${install_root_api}/bin/:/usr/local/bin:/usr/bin:/bin/",
     refreshonly => true,
     subscribe   => File[$superuser_file_path],
     require     => File[$superuser_file_path],

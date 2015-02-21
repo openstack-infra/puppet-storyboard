@@ -3,9 +3,9 @@ description "StoryBoard Deferred Workers"
 start on started network-services
 stop on stopping network-services
 
-setuid <%= scope.lookupvar("storyboard::params::user") %>
-setgid <%= scope.lookupvar("storyboard::params::group") %>
+setuid <%= @user %>
+setgid <%= @group %>
 
 script
-  storyboard-worker-daemon --worker-count <%= @worker_count %>
+  <%= @install_root_api %>/bin/storyboard-worker-daemon --worker-count <%= @worker_count %>
 end script
