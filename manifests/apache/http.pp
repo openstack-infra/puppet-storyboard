@@ -34,7 +34,14 @@ class storyboard::apache::http () {
 
   # Install apache
   include apache
-  include apache::mod::wsgi
+  package { 'libapache2-mod-wsgi':
+    ensure => absent,
+    before => Package['libapache2-mod-wsgi-py3']
+  }
+  package { 'libapache2-mod-wsgi-py3':
+    ensure => present,
+    notify   => Service['httpd'],
+  }
 
   # Set up storyboard as HTTP
   apache::vhost { $hostname:

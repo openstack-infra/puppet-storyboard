@@ -72,7 +72,7 @@ class storyboard::params (
 ) inherits apache::params {
 
   # Define the python version
-  $python_version = '2.7'
+  $python_version = '3.4'
 
   # Working and Install directories
   $src_root_api           = "/opt/storyboard-py${python_version}"

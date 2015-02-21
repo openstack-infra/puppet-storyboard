@@ -21,7 +21,7 @@ class storyboard::apache::https () {
 
   require storyboard::params
 
-  # Pull various variables into this module, for slightly saner templates.
+# Pull various variables into this module, for slightly saner templates.
   $src_root_api           = $storyboard::params::src_root_api
   $src_root_webclient     = $storyboard::params::src_root_webclient
   $install_root_api       = $storyboard::params::install_root_api
@@ -40,9 +40,16 @@ class storyboard::apache::https () {
   $ssl_ca_content         = $storyboard::params::ssl_ca_content
   $resolved_ssl_ca        = $storyboard::params::resolved_ssl_ca
 
-  # Install apache
+# Install apache
   include apache
-  include apache::mod::wsgi
+  package { 'libapache2-mod-wsgi':
+    ensure => absent,
+    before => Package['libapache2-mod-wsgi-py3']
+  }
+  package { 'libapache2-mod-wsgi-py3':
+    ensure => present,
+    notify   => Service['httpd'],
+  }
 
   if $ssl_cert_content != undef {
     file { $ssl_cert:
@@ -74,7 +81,7 @@ class storyboard::apache::https () {
     }
   }
 
-  # Set up storyboard as HTTPS
+# Set up storyboard as HTTPS
   apache::vhost { $hostname:
     port     => 443,
     docroot  => $install_root_webclient,
