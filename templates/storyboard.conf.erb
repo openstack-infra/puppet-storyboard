@@ -8,6 +8,10 @@
 # Where to store lock files
 lock_path = $state_path/lock
 
+# Storyboard's working directory. Please ensure that the storyboard user has
+# read/write access to this directory.
+working_directory = <%= @working_root %>
+
 # log_format = %(asctime)s %(levelname)8s [%(name)s] %(message)s
 # log_date_format = %Y-%m-%d %H:%M:%S
 
@@ -52,9 +56,6 @@ access_token_ttl = <%= @access_token_ttl %>
 
 # Time in seconds before an refresh_token expires
 refresh_token_ttl = <%= @refresh_token_ttl %>
-
-# The root path to storyboard's working directory
-working_directory = <%= @working_root %>
 
 [cron]
 # Storyboard's cron management configuration
