@@ -52,7 +52,7 @@ class storyboard::application (
   $rabbitmq_user_password,
   $enable_notifications   = 'True',
 
-  $enable_cron            = 'True',
+  $enable_scheduler       = 'True',
 
 ) {
 

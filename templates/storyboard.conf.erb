@@ -63,11 +63,11 @@ refresh_token_ttl = <%= @refresh_token_ttl %>
 # A list of valid client id's that may connect to StoryBoard.
 valid_oauth_clients = <%= @valid_oauth_clients.join(',') %>
 
-[cron]
-# Storyboard's cron management configuration
+[scheduler]
+# Storyboard's scheduled task management configuration
 
-# Enable or disable cron (Default disabled)
-# enable = <%= @enable_cron %>
+# Enable or disable scheduling (Default disabled)
+enable = <%= @enable_scheduler %>
 
 <% if scope.lookupvar("storyboard::application::cors_allowed_origins_string") != :undef %>
 [cors]
