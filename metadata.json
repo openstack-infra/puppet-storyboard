@@ -1,5 +1,5 @@
 {
-  "name": "openstackci-storyboard",
+  "name": "openstackinfra-storyboard",
   "version": "0.0.1",
   "author": "Openstack CI",
   "summary": "Puppet module for the OpenStack StoryBoard",
@@ -29,7 +29,7 @@
       "version_requirement": ">= 2.1.9"
     },
     {
-      "name": "openstackci/vcsrepo",
+      "name": "openstackinfra/vcsrepo",
       "version_requirement": ">= 0.0.8"
     },
     {
