@@ -17,8 +17,8 @@
       "version_requirement": ">= 0.6.1"
     },
     {
-      "name": "puppetlabs/apache",
-      "version_requirement": "= 0.0.4"
+      "name": "openstackinfra/httpd",
+      "version_requirement": "= 0.x"
     },
     {
       "name": "puppetlabs/rabbitmq",

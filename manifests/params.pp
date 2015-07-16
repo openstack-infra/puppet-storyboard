@@ -18,10 +18,10 @@
 #
 class storyboard::params () {
 
-  include apache::params
+  include ::httpd::params
 
-  $user = $apache::params::user
-  $group = $apache::params::group
+  $user = $::httpd::params::user
+  $group = $::httpd::params::group
 
   case $::osfamily {
     'Debian': {
