@@ -68,8 +68,8 @@ class storyboard::application (
 
   # Dependencies
   require storyboard::params
-  include apache
-  include apache::mod::wsgi
+  include ::httpd
+  include ::httpd::mod::wsgi
 
   class { 'python':
     pip => true,
@@ -106,7 +106,7 @@ class storyboard::application (
     content => template('storyboard/storyboard.conf.erb'),
     notify  => Service['httpd'],
     require => [
-      Class['apache::params'],
+      Class['httpd::params'],
       File['/etc/storyboard']
     ]
   }
@@ -128,7 +128,7 @@ class storyboard::application (
     subscribe   => Vcsrepo[$src_root_api],
     notify      => Service['httpd'],
     require     => [
-      Class['apache::params'],
+      Class['httpd::params'],
       Class['python::install'],
     ]
   }
@@ -233,7 +233,7 @@ class storyboard::application (
   # Are we setting up TLS or non-TLS?
   if defined(Class['storyboard::cert']) {
     # Set up storyboard as HTTPS
-    apache::vhost { $hostname:
+    httpd::vhost { $hostname:
       port     => 443,
       docroot  => $www_root,
       priority => '50',
@@ -242,7 +242,7 @@ class storyboard::application (
     }
   } else {
     # Set up storyboard as HTTPS
-    apache::vhost { $hostname:
+    httpd::vhost { $hostname:
       port     => 80,
       docroot  => $www_root,
       priority => '50',
