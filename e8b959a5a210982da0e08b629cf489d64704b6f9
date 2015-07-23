@@ -1,0 +1,9 @@
+Verified+2: Jenkins
+Code-Review+2: yolanda.robla <info@ysoft.biz>
+Code-Review+2: Spencer Krum <nibz@spencerkrum.com>
+Workflow+1: Spencer Krum <nibz@spencerkrum.com>
+Submitted-by: Jenkins
+Submitted-at: Thu, 23 Jul 2015 18:06:04 +0000
+Reviewed-on: https://review.openstack.org/202628
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
