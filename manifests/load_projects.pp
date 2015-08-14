@@ -29,8 +29,8 @@ class storyboard::load_projects (
   $source,
 ) {
 
-  include storyboard::params
-  include storyboard::application
+  include ::storyboard::params
+  include ::storyboard::application
 
   $project_file_path = '/var/lib/storyboard/projects.yaml'
 
@@ -42,7 +42,7 @@ class storyboard::load_projects (
     source  => $source,
     replace => true,
     require => [
-      Class['storyboard::application'],
+      Class['::storyboard::application'],
     ]
   }
 

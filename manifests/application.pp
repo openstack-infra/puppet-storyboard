@@ -67,15 +67,15 @@ class storyboard::application (
   }
 
   # Dependencies
-  require storyboard::params
+  require ::storyboard::params
   include ::httpd
   include ::httpd::mod::wsgi
 
-  class { 'python':
+  class { '::python':
     pip => true,
     dev => true,
   }
-  include python::install
+  include ::python::install
 
   if !defined(Package['git']) {
     package { 'git':

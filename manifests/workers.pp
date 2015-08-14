@@ -21,7 +21,7 @@ class storyboard::workers (
   $use_upstart = false,
 ) {
 
-  include storyboard::params
+  include ::storyboard::params
 
   $upstart_path = '/etc/init/storyboard-workers.conf'
   $sysvinit_path = '/etc/init.d/storyboard-workers'

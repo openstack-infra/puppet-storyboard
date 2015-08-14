@@ -23,9 +23,9 @@ class storyboard::rabbit (
   $rabbitmq_user_password
 ) {
 
-  require storyboard::params
+  require ::storyboard::params
 
-  class { 'rabbitmq':
+  class { '::rabbitmq':
     service_manage    => true,
     delete_guest_user => true,
     manage_repos      => $storyboard::params::manage_rabbit_repo,
