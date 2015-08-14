@@ -1,1 +1,3 @@
 .vagrant
+Gemfile.lock
+.bundled_gems

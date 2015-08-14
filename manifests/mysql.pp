@@ -24,7 +24,7 @@ class storyboard::mysql (
 ) {
 
   # Install MySQL
-  include mysql::server
+  include ::mysql::server
 
   # Add the storyboard database.
   mysql::db { $mysql_database:

@@ -25,8 +25,8 @@ class storyboard::load_superusers (
   $source,
 ) {
 
-  include storyboard::params
-  include storyboard::application
+  include ::storyboard::params
+  include ::storyboard::application
 
   $superuser_file_path = '/var/lib/storyboard/superusers.yaml'
 
@@ -38,7 +38,7 @@ class storyboard::load_superusers (
     source  => $source,
     replace => true,
     require => [
-      Class['storyboard::application'],
+      Class['::storyboard::application'],
     ]
   }
 
