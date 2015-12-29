@@ -5,7 +5,7 @@ author 'openstackci'
 license 'Apache 2.0'
 summary 'Puppet module for the OpenStack StoryBoard'
 description 'This module configures StoryBoard either as a standalone, localhost instance or as a fully configurable WSGI app.'
-project_page 'https://github.com/openstack-ci/puppet-storyboard'
+project_page 'https://git.openstack.org/cgit/openstack-infra/puppet-storyboard'
 
 ## Add dependencies, if any:
 dependency 'puppetlabs/stdlib', '= 3.2.0'
