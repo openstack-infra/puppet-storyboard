@@ -26,6 +26,9 @@
 
     SSLEngine on
 
+    SSLProtocol +TLSv1 +TLSv1.1 +TLSv1.2
+    SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!EXP:!LOW:!MEDIUM
+
     SSLCertificateFile      <%= scope.lookupvar("storyboard::cert::ssl_cert") %>
     SSLCertificateKeyFile   <%= scope.lookupvar("storyboard::cert::ssl_key") %>
   <% if scope.lookupvar("storyboard::cert::resolved_ssl_ca") != :undef %>
