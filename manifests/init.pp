@@ -20,24 +20,20 @@
 # please use individual submodules.
 #
 class storyboard (
+  $mysql_user_password,
+  $rabbitmq_user_password,
+  $hostname            = $::fqdn,
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
-  $mysql_user_password,
-
-  $rabbitmq_user       = 'storyboard',
-  $rabbitmq_user_password,
-
-  $valid_oauth_clients = [$::fqdn],
-
-  $hostname            = $::fqdn,
   $openid_url          = 'https://login.launchpad.net/+openid',
-
-  $ssl_cert_content    = undef,
+  $rabbitmq_user       = 'storyboard',
   $ssl_cert            = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-  $ssl_key_content     = undef,
+  $ssl_cert_content    = undef,
   $ssl_key             = '/etc/ssl/private/ssl-cert-snakeoil.key',
-  $ssl_ca_content      = undef,
+  $ssl_key_content     = undef,
   $ssl_ca              = undef,
+  $ssl_ca_content      = undef,
+  $valid_oauth_clients = [$::fqdn],
 ) {
 
   class { '::storyboard::cert':

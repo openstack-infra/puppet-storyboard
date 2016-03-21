@@ -20,14 +20,12 @@
 # application will be hosted over https rather than http.
 #
 class storyboard::cert (
-  $ssl_cert_content = undef,
-  $ssl_cert         = '/etc/ssl/certs/storyboard.pem',
-
-  $ssl_key_content  = undef,
-  $ssl_key          = '/etc/ssl/private/storyboard.key',
-
-  $ssl_ca_content   = undef,
   $ssl_ca           = undef, # '/etc/ssl/certs/ca.pem'
+  $ssl_ca_content   = undef,
+  $ssl_cert         = '/etc/ssl/certs/storyboard.pem',
+  $ssl_cert_content = undef,
+  $ssl_key          = '/etc/ssl/private/storyboard.key',
+  $ssl_key_content  = undef,
 ) {
 
   if $ssl_cert_content != undef {
