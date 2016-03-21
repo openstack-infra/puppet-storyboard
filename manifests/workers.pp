@@ -17,8 +17,8 @@
 # This module installs the storyboard deferred processing workers.
 #
 class storyboard::workers (
+  $use_upstart  = false,
   $worker_count = 5,
-  $use_upstart = false,
 ) {
 
   include ::storyboard::params

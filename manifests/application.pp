@@ -19,46 +19,44 @@
 # it'll just use http.
 #
 class storyboard::application (
-
   # Installation parameters
-  $src_root_api           = '/opt/storyboard',
-  $src_root_webclient     = '/opt/storyboard-webclient',
-  $install_root           = '/var/lib/storyboard',
-  $www_root               = '/var/lib/storyboard/www',
-  $working_root           = '/var/lib/storyboard/spool',
-  $server_admin           = undef,
-  $hostname               = $::fqdn,
   $cors_allowed_origins   = undef,
   $cors_max_age           = 3600,
+  $hostname               = $::fqdn,
+  $install_root           = '/var/lib/storyboard',
+  $server_admin           = undef,
+  $src_root_api           = '/opt/storyboard',
+  $src_root_webclient     = '/opt/storyboard-webclient',
+  $working_root           = '/var/lib/storyboard/spool',
+  $www_root               = '/var/lib/storyboard/www',
 
   # storyboard.conf parameters
-  $authorization_code_ttl = 300,
-  $access_token_ttl       = 3600,
-  $refresh_token_ttl      = 604800,
   $openid_url,
-  $valid_oauth_clients    = [$::fqdn],
+  $access_token_ttl       = 3600,
+  $authorization_code_ttl = 300,
   $enable_token_cleanup   = 'True',
-
-  $mysql_host             = 'localhost',
-  $mysql_port             = 3306,
-  $mysql_database         = 'storyboard',
-  $mysql_user             = 'storyboard',
-  $mysql_user_password,
-
-  $rabbitmq_host          = 'localhost',
-  $rabbitmq_port          = 5672,
-  $rabbitmq_vhost         = '/',
-  $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password,
-  $enable_notifications   = 'True',
+  $refresh_token_ttl      = 604800,
+  $valid_oauth_clients    = [$::fqdn],
 
   $enable_cron            = 'True',
+
+  $mysql_user_password,
+  $mysql_database         = 'storyboard',
+  $mysql_host             = 'localhost',
+  $mysql_port             = 3306,
+  $mysql_user             = 'storyboard',
+
+  $rabbitmq_user_password,
+  $enable_notifications   = 'True',
+  $rabbitmq_host          = 'localhost',
+  $rabbitmq_port          = 5672,
+  $rabbitmq_user          = 'storyboard',
+  $rabbitmq_vhost         = '/',
 
   $enable_email           = 'True',
   $sender_email_address   = 'no-reply@storyboard.openstack.org',
   $smtp_host              = 'localhost',
   $smtp_port              = 25,
-
 ) {
 
   # Variables
