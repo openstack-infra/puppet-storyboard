@@ -19,46 +19,37 @@
 # it'll just use http.
 #
 class storyboard::application (
-
-  # Installation parameters
-  $src_root_api           = '/opt/storyboard',
-  $src_root_webclient     = '/opt/storyboard-webclient',
-  $install_root           = '/var/lib/storyboard',
-  $www_root               = '/var/lib/storyboard/www',
-  $working_root           = '/var/lib/storyboard/spool',
-  $server_admin           = undef,
-  $hostname               = $::fqdn,
-  $cors_allowed_origins   = undef,
-  $cors_max_age           = 3600,
-
-  # storyboard.conf parameters
-  $authorization_code_ttl = 300,
-  $access_token_ttl       = 3600,
-  $refresh_token_ttl      = 604800,
-  $openid_url,
-  $valid_oauth_clients    = [$::fqdn],
-  $enable_token_cleanup   = 'True',
-
+  $mysql_user_password,
+  $openid_url, # storyboard.conf parameter
+  $rabbitmq_user_password,
+  $access_token_ttl       = 3600, # storyboard.conf parameter
+  $authorization_code_ttl = 300, # storyboard.conf parameter
+  $cors_allowed_origins   = undef, # Installation parameters
+  $cors_max_age           = 3600, # Installation parameters
+  $enable_cron            = 'True',
+  $enable_email           = 'True',
+  $enable_notifications   = 'True',
+  $enable_token_cleanup   = 'True', # storyboard.conf parameter
+  $hostname               = $::fqdn, # Installation parameters
+  $install_root           = '/var/lib/storyboard', # Installation parameters
+  $mysql_database         = 'storyboard',
   $mysql_host             = 'localhost',
   $mysql_port             = 3306,
-  $mysql_database         = 'storyboard',
   $mysql_user             = 'storyboard',
-  $mysql_user_password,
-
   $rabbitmq_host          = 'localhost',
   $rabbitmq_port          = 5672,
-  $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password,
-  $enable_notifications   = 'True',
-
-  $enable_cron            = 'True',
-
-  $enable_email           = 'True',
+  $rabbitmq_vhost         = '/',
+  $refresh_token_ttl      = 604800, # storyboard.conf parameter
   $sender_email_address   = 'no-reply@storyboard.openstack.org',
+  $server_admin           = undef, # Installation parameters
   $smtp_host              = 'localhost',
   $smtp_port              = 25,
-
+  $src_root_api           = '/opt/storyboard', # Installation parameters
+  $src_root_webclient     = '/opt/storyboard-webclient', # Installation parameters
+  $valid_oauth_clients    = [$::fqdn], # storyboard.conf parameter
+  $www_root               = '/var/lib/storyboard/www', # Installation parameters
+  $working_root           = '/var/lib/storyboard/spool', # Installation parameters
 ) {
 
   # Variables

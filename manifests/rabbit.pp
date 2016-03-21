@@ -20,7 +20,7 @@
 #
 class storyboard::rabbit (
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password
+  $rabbitmq_user_password,
 ) {
 
   require ::storyboard::params
