@@ -1,4 +1,4 @@
-<VirtualHost <%= scope.lookupvar("storyboard::application::hostname") %>:80>
+<VirtualHost *:80>
 <% if scope.lookupvar("storyboard::application::server_admin") != :undef %>
     ServerAdmin <%= scope.lookupvar("storyboard::application::server_admin") %>
 <% end %>
@@ -14,7 +14,7 @@
 
 </VirtualHost>
 <IfModule mod_ssl.c>
-  <VirtualHost <%= scope.lookupvar("storyboard::application::hostname") %>:443>
+  <VirtualHost *:443>
   <% if scope.lookupvar("storyboard::application::server_admin") != :undef %>
     ServerAdmin <%= scope.lookupvar("storyboard::application::server_admin") %>
   <% end %>
