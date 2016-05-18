@@ -33,9 +33,9 @@ class storyboard (
   $openid_url          = 'https://login.launchpad.net/+openid',
 
   $ssl_cert_content    = undef,
-  $ssl_cert            = '/etc/ssl/certs/ssl-cert-snakeoil.pem',
+  $ssl_cert            = undef,
   $ssl_key_content     = undef,
-  $ssl_key             = '/etc/ssl/private/ssl-cert-snakeoil.key',
+  $ssl_key             = undef,
   $ssl_ca_content      = undef,
   $ssl_ca              = undef,
 ) {
