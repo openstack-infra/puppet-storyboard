@@ -33,8 +33,8 @@ class storyboard::cert (
   if $ssl_cert_content != undef {
     file { $ssl_cert:
       owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
+      group   => 'root',
+      mode    => '0644',
       content => $ssl_cert_content,
       before  => Class['storyboard::application'],
       notify  => Class['storyboard::application'],
@@ -44,8 +44,8 @@ class storyboard::cert (
   if $ssl_key_content != undef {
     file { $ssl_key:
       owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
+      group   => 'root',
+      mode    => '0600',
       content => $ssl_key_content,
       before  => Class['storyboard::application'],
       notify  => Class['storyboard::application'],
@@ -63,8 +63,8 @@ class storyboard::cert (
   if $ssl_ca_content != undef {
     file { $resolved_ssl_ca:
       owner   => 'root',
-      group   => 'ssl-cert',
-      mode    => '0640',
+      group   => 'root',
+      mode    => '0644',
       content => $ssl_ca_content,
       before  => Class['storyboard::application'],
       notify  => Class['storyboard::application'],
