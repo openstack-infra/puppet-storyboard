@@ -138,6 +138,18 @@ class storyboard::application (
     ]
   }
 
+  # Install launchpad migration dependencies
+  if !defined(Package['python-launchpadlib']) {
+    package { 'python-launchpadlib':
+      ensure => present
+    }
+  }
+  if !defined(Package['python-simplejson']) {
+    package { 'python-simplejson':
+      ensure => present
+    }
+  }
+
   # Create the root dir
   file { $install_root:
     ensure => directory,
