@@ -138,6 +138,16 @@ class storyboard::application (
     ]
   }
 
+  # Install launchpad migration dependencies
+  exec { 'install-migration-deps' :
+    command     => "pip2 install launchpadlib simplejson",
+    path        => '/usr/local/bin:/usr/bin:/bin/',
+    require     => [
+        Class['httpd::params'],
+        Class['python::install'],
+    ]
+  }
+
   # Create the root dir
   file { $install_root:
     ensure => directory,
