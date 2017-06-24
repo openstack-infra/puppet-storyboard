@@ -20,12 +20,12 @@
 # please use individual submodules.
 #
 class storyboard (
+  $mysql_user_password,
+  $rabbitmq_user_password,
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
-  $mysql_user_password,
 
   $rabbitmq_user       = 'storyboard',
-  $rabbitmq_user_password,
 
   $valid_oauth_clients = [$::fqdn],
 

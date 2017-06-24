@@ -18,9 +18,9 @@
 # of mysql for storyboard to connect to.
 #
 class storyboard::mysql (
+  $mysql_user_password,
   $mysql_database      = 'storyboard',
   $mysql_user          = 'storyboard',
-  $mysql_user_password,
 ) {
 
   # Install MySQL
