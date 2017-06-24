@@ -20,6 +20,11 @@
 #
 class storyboard::application (
 
+  # Required parameters
+  $openid_url,
+  $mysql_user_password,
+  $rabbitmq_user_password,
+
   # Installation parameters
   $src_root_api           = '/opt/storyboard',
   $src_root_webclient     = '/opt/storyboard-webclient',
@@ -35,7 +40,6 @@ class storyboard::application (
   $authorization_code_ttl = 300,
   $access_token_ttl       = 3600,
   $refresh_token_ttl      = 604800,
-  $openid_url,
   $valid_oauth_clients    = [$::fqdn],
   $enable_token_cleanup   = 'True',
 
@@ -43,13 +47,11 @@ class storyboard::application (
   $mysql_port             = 3306,
   $mysql_database         = 'storyboard',
   $mysql_user             = 'storyboard',
-  $mysql_user_password,
 
   $rabbitmq_host          = 'localhost',
   $rabbitmq_port          = 5672,
   $rabbitmq_vhost         = '/',
   $rabbitmq_user          = 'storyboard',
-  $rabbitmq_user_password,
   $enable_notifications   = 'True',
 
   $enable_cron            = 'True',
