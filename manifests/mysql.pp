@@ -32,5 +32,6 @@ class storyboard::mysql (
     password => $mysql_user_password,
     host     => 'localhost',
     grant    => ['all'],
+    charset  => 'utf8mb4',
   }
 }
