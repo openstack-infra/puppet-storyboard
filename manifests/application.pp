@@ -57,7 +57,7 @@ class storyboard::application (
   $enable_cron            = 'True',
 
   $enable_email           = 'True',
-  $sender_email_address   = 'no-reply@storyboard.openstack.org',
+  $sender_email_address   = 'no-reply@storyboard.example.org',
   $smtp_host              = 'localhost',
   $smtp_port              = 25,
 
