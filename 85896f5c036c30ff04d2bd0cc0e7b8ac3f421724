@@ -1,0 +1,12 @@
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+1: Adam Coldrick <adam.coldrick@codethink.co.uk>
+Code-Review+1: Witold Bedyk <witold.bedyk@est.fujitsu.com>
+Code-Review+2: Joshua Hesketh <josh@nitrotech.org>
+Code-Review+1: Dobroslaw Zybort <dobroslaw.zybort@ts.fujitsu.com>
+Workflow+1: Jeremy Stanley <fungi@yuggoth.org>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Tue, 24 Apr 2018 14:31:36 +0000
+Reviewed-on: https://review.openstack.org/555237
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
