@@ -25,7 +25,7 @@ class storyboard::params () {
 
   case $::osfamily {
     'Debian': {
-      if $::operatingsystem == 'Ubuntu' and $::operatingsystemrelease >= 13.10 {
+      if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemrelease, '13.10') >= 0 {
         $apache_version = '2.4'
         $manage_rabbit_repo = false
       } else {
