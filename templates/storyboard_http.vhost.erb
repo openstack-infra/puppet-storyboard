@@ -15,7 +15,7 @@
   CustomLog ${APACHE_LOG_DIR}/storyboard-access.log combined
 
   <Directory "<%= scope.lookupvar("storyboard::application::install_root") %>">
-    <% if @new_vhost_perms %>
+    <% if scope.lookupvar("storyboard::application::new_vhost_perms") %>
       Require all granted
     <% else %>
       Order allow,deny
