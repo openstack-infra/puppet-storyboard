@@ -65,7 +65,7 @@ class storyboard::application (
 ) {
 
   # Variables
-  $webclient_filename = 'storyboard-webclient-latest.tar.gz'
+  $webclient_filename = 'storyboard-webclient-content-latest.tar.gz'
   $webclient_url = "http://tarballs.openstack.org/storyboard-webclient/${webclient_filename}"
 
   if $cors_allowed_origins {
