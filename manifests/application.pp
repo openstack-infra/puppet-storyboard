@@ -219,7 +219,7 @@ class storyboard::application (
 
   # Unpack storyboard-webclient
   exec { 'unpack-webclient':
-    command     => "tar -xzf ./${webclient_filename}",
+    command     => "tar -xzf ./${webclient_filename} -c ${src_root_webclient}/dist",
     path        => '/bin:/usr/bin',
     refreshonly => true,
     cwd         => $src_root_webclient,
