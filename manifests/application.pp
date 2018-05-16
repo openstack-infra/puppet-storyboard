@@ -217,13 +217,24 @@ class storyboard::application (
     onlyif  => "curl -I ${webclient_url} -z ./${webclient_filename} | grep '200 OK'",
   }
 
+  # Create/clean the storyboard-webclient unpack directory
+  file { "${src_root_webclient}/dist":
+    ensure => directory,
+    recurse => true,
+    purge   => true,
+    force   => true,
+  }
+
   # Unpack storyboard-webclient
   exec { 'unpack-webclient':
-    command     => "tar -xzf ./${webclient_filename}",
+    command     => "tar -xzf ../${webclient_filename}",
     path        => '/bin:/usr/bin',
     refreshonly => true,
-    cwd         => $src_root_webclient,
-    require     => Exec['get-webclient'],
+    cwd         => "${src_root_webclient}/dist",
+    require     => [
+      File["${src_root_webclient}/dist"],
+      Exec['get-webclient'],
+    ],
     subscribe   => Exec['get-webclient'],
   }
 
