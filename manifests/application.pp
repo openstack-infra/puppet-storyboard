@@ -209,41 +209,21 @@ class storyboard::application (
   }
 
   # Download the latest storyboard-webclient
-  exec { 'get-webclient':
-    command => "curl ${webclient_url} -z ./${webclient_filename} -o ${webclient_filename}",
-    path    => '/bin:/usr/bin',
-    cwd     => $src_root_webclient,
-    require => File[$src_root_webclient],
-    onlyif  => "curl -I ${webclient_url} -z ./${webclient_filename} | grep '200 OK'",
-  }
-
-  # Create/clean the storyboard-webclient unpack directory
-  file { "${src_root_webclient}/dist":
-    ensure  => directory,
-    recurse => true,
-    purge   => true,
-    force   => true,
-    require => File[$src_root_webclient],
-  }
-
-  # Unpack storyboard-webclient
-  exec { 'unpack-webclient':
-    command     => "tar -xzf ../${webclient_filename}",
-    path        => '/bin:/usr/bin',
-    refreshonly => true,
-    cwd         => "${src_root_webclient}/dist",
-    require     => [
-      File["${src_root_webclient}/dist"],
-      Exec['get-webclient'],
-    ],
-    subscribe   => Exec['get-webclient'],
+  include '::archive'
+  archive { "${src_root_webclient}/${webclient_filename}"
+    ensure       => present,
+    user         => 'root',
+    source       => $webclient_url,
+    extract      => true,
+    extract_path => "${src_root_webclient}/dist",
+    require      => File["${src_root_webclient}/dist"],
   }
 
   # Create config.json
   file { "${src_root_webclient}/dist/config.json":
     ensure  => file,
     content => '{}',
-    require => Exec['unpack-webclient'],
+    require => Archive["${src_root_webclient}/${webclient_filename}"],
   }
 
   # Copy the downloaded source into the configured www_root
