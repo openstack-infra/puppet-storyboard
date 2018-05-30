@@ -1,0 +1,9 @@
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Workflow+1: Monty Taylor <mordred@inaugust.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 30 May 2018 18:46:12 +0000
+Reviewed-on: https://review.openstack.org/570004
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
