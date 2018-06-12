@@ -1,0 +1,10 @@
+Code-Review+2: Joshua Hesketh <josh@nitrotech.org>
+Code-Review+1: Adam Coldrick <adam.coldrick@codethink.co.uk>
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Tue, 12 Jun 2018 22:46:00 +0000
+Reviewed-on: https://review.openstack.org/564868
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
