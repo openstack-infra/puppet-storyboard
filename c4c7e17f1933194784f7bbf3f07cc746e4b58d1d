@@ -1,0 +1,10 @@
+Code-Review+2: Clark Boylan <cboylan@sapwetik.org>
+Workflow+1: Clark Boylan <cboylan@sapwetik.org>
+Code-Review+2: Jeremy Stanley <fungi@yuggoth.org>
+Code-Review+2: Monty Taylor <mordred@inaugust.com>
+Verified+2: Zuul
+Submitted-by: Zuul
+Submitted-at: Wed, 01 Aug 2018 23:10:37 +0000
+Reviewed-on: https://review.openstack.org/588095
+Project: openstack-infra/puppet-storyboard
+Branch: refs/heads/master
