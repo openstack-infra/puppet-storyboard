@@ -15,7 +15,7 @@
 </VirtualHost>
 <IfModule mod_ssl.c>
   <VirtualHost *:443>
-  <% if scope.lookupvar("storyboard::application::server_admin") != :undef %>
+  <% if ! [nil, :undef].include?(scope.lookupvar("storyboard::application::server_admin")) %>
     ServerAdmin <%= scope.lookupvar("storyboard::application::server_admin") %>
   <% end %>
     ServerName <%= scope.lookupvar("storyboard::application::hostname") %>
@@ -31,7 +31,7 @@
 
     SSLCertificateFile      <%= scope.lookupvar("storyboard::cert::ssl_cert") %>
     SSLCertificateKeyFile   <%= scope.lookupvar("storyboard::cert::ssl_key") %>
-  <% if scope.lookupvar("storyboard::cert::resolved_ssl_ca") != :undef %>
+  <% if ! [nil, :undef].include?(scope.lookupvar("storyboard::cert::resolved_ssl_ca")) %>
     SSLCertificateChainFile <%= scope.lookupvar("storyboard::cert::resolved_ssl_ca") %>
   <% end %>
 
