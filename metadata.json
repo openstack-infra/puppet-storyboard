@@ -25,10 +25,6 @@
       "version_requirement": ">= 4.0.0"
     },
     {
-      "name": "example42/puppi",
-      "version_requirement": ">= 2.1.9"
-    },
-    {
       "name": "openstackinfra/vcsrepo",
       "version_requirement": ">= 0.0.8"
     },

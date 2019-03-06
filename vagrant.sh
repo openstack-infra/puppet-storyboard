@@ -21,9 +21,6 @@ fi
 if [ ! -d /etc/puppet/modules/rabbitmq ]; then
   puppet module install puppetlabs-rabbitmq --version 5.0.0
 fi
-if [ ! -d /etc/puppet/modules/puppi ]; then
-  puppet module install example42-puppi --version 2.1.9
-fi
 if [ ! -d /etc/puppet/modules/vcsrepo ]; then
   puppet module install openstackinfra-vcsrepo --version 0.0.8
 fi
