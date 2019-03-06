@@ -156,7 +156,7 @@ sender = <%= @sender_email_address %>
 <% if scope.lookupvar('storyboard::application::reply_to_email_address') != :undef %>
 
 # The email address of the Reply-To header (optional).
-reply_to = <%= @reply_to_email_address %>
+reply_to = <%= scope.lookupvar('storyboard::application::reply_to_email_address') %>
 
 <% end %>
 

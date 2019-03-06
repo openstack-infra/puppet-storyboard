@@ -61,6 +61,7 @@ class storyboard::application (
   $default_url            = 'https://storyboard.example.org',
   $smtp_host              = 'localhost',
   $smtp_port              = 25,
+  $reply_to_email_address = undef,
 
 ) {
 
