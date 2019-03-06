@@ -153,7 +153,7 @@ enable = <%= @enable_email %>
 # The email address from which storyboard will send its messages.
 sender = <%= @sender_email_address %>
 
-<% if scope.lookupvar('storyboard::application::reply_to_email_address') != :undef %>
+<% if @reply_to_email_address != :undef and @reply_to_email_address != nil %>
 
 # The email address of the Reply-To header (optional).
 reply_to = <%= @reply_to_email_address %>
