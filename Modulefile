@@ -1,6 +1,6 @@
 name 'openstack-storyboard'
 version '0.0.1'
-source 'git://git.openstack.org/openstack-infra/puppet-storyboard.git'
+source 'https://git.openstack.org/openstack-infra/puppet-storyboard.git'
 author 'openstackci'
 license 'Apache 2.0'
 summary 'Puppet module for the OpenStack StoryBoard'
